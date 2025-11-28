@@ -1,19 +1,27 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Portfolio - Jaime Lara
 
-# Run and deploy your AI Studio app
+Portafolio personal en React + Vite con diseño minimalista, animaciones suaves y secciones en español.
 
-This contains everything you need to run your app locally.
+## Requisitos
+- Node.js 18+ (recomendado)  
+- npm
 
-View your app in AI Studio: https://ai.studio/apps/drive/1dm6w9NnOy8EJ8w-MmvQOxcdqJPFCZlc-
+## Scripts
+- `npm install` — instala dependencias  
+- `npm run dev` — modo desarrollo (http://localhost:3000)  
+- `npm run build` — build de producción en `dist/`  
+- `npm run preview` — sirve el build para revisión local
 
-## Run Locally
+## Estructura rápida
+- `App.tsx`: compone las secciones principales.
+- `components/`: Navbar, Hero, Experience (Cojali), Education, Projects, Skills (píldoras con física), Contact.
+- `Gemini_Generated_Image_*.png`: imagen usada en Educación.
+- `vite.config.ts`, `tsconfig.json`: configuración de build/TypeScript.
 
-**Prerequisites:**  Node.js
+## Personalización
+- Textos: edita cada archivo en `components/`.
+- Experiencia: `components/Experience.tsx`.
+- Educación: `components/Education.tsx` (puedes cambiar la imagen o agregar más items).
+- Proyectos y habilidades: `components/Projects.tsx` y `components/Skills.tsx`.
 
-
-1. Install dependencies:
-   `npm install`
-2. Run the app:
-   `npm run dev`
+No se requiere ninguna API key; todo corre localmente.

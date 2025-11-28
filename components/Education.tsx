@@ -1,13 +1,12 @@
 import React from 'react';
 import { EducationItem } from '../types';
-import uclmImage from '../Gemini_Generated_Image_7dgdq07dgdq07dgd.png';
 
 const educationData: EducationItem[] = [
   {
     id: '1',
     school: 'Universidad de Castilla-La Mancha',
     degree: 'Grado en Ingeniería de Software',
-    imageUrl: uclmImage
+    imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop'
   },
   {
     id: '2',

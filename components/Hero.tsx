@@ -24,7 +24,7 @@ export const Hero: React.FC = () => {
               </span>
             </h1>
             <p className="mt-6 text-2xl md:text-3xl text-gray-800 font-medium">
-              Ingeniero de Software
+              Ingeniero de Software & IA Aplicada
             </p>
           </div>
 

@@ -6,6 +6,8 @@ import { Education } from './components/Education';
 import { Projects } from './components/Projects';
 import { Skills } from './components/Skills';
 import { Contact } from './components/Contact';
+import { ChatWidget } from './components/ChatWidget';
+import { TerminalGame } from './components/TerminalGame';
 
 const App: React.FC = () => {
   const cursorDotRef = useRef<HTMLDivElement>(null);
@@ -65,7 +67,14 @@ const App: React.FC = () => {
         <Projects />
         <Skills />
       </main>
+      
+      {/* New Terminal Section */}
+      <TerminalGame />
+      
       <Contact />
+      
+      {/* AI Assistant */}
+      <ChatWidget />
     </div>
   );
 };
