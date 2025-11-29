@@ -50,13 +50,42 @@ export const TRANSLATIONS: Record<'es' | 'en', TranslationData> = {
             title: "Experiencia Técnica",
             description: "Combino la precisión de la ingeniería con la resolución creativa de problemas para entregar software que impulsa el crecimiento empresarial."
         },
+        skills_section: {
+            title: "habilidades",
+            subtitle: "Selecciona una vista para explorar mi stack tecnológico.",
+            tabs: {
+                ide: "IDE",
+                constellation: "Ecosistema"
+            },
+            skills: {
+                python: { label: "Python", description: "Scripting, IA y Backend robusto." },
+                java: { label: "Java", description: "Sistemas empresariales y POO." },
+                cpp: { label: "C++", description: "Alto rendimiento y sistemas embebidos." },
+                sql: { label: "SQL", description: "Gestión eficiente de bases de datos." },
+                js: { label: "JavaScript", description: "Interactividad y lógica Frontend." },
+                react: { label: "React", description: "Interfaces modernas y reactivas." },
+                docker: { label: "Docker", description: "Contenerización y despliegue." },
+                linux: { label: "Linux", description: "Administración de sistemas y servidores." },
+                git: { label: "Git", description: "Control de versiones y colaboración." },
+                cloud: { label: "Cloud / IoT", description: "Infraestructura y dispositivos conectados." },
+                ai: { label: "AI & DL", description: "Redes neuronales y modelos predictivos." },
+                cyber: { label: "Security", description: "Auditoría y protección de redes." },
+                apis: { label: "REST APIs", description: "Conexión entre servicios." }
+            }
+        },
         experience: [
             {
                 id: '1',
                 company: "Cojali S. L.",
                 role: "AI Diagnostic Test Engineer",
-                period: "2025",
-                description: "Desarrollo de pruebas de diagnóstico impulsadas por inteligencia artificial. Contrato de formación enfocado en la innovación automotriz y tecnológica en Campo de Criptana."
+                year: "2025",
+                description: "Desarrollo de pruebas de diagnóstico impulsadas por inteligencia artificial. Contrato de formación enfocado en la innovación automotriz y tecnológica en Campo de Criptana.",
+                techStack: ["Python", "TensorFlow", "AutoML", "Big Data"],
+                responsibilities: [
+                    "Desarrollo de diagnósticos impulsados por IA",
+                    "Innovación en sistemas automotrices",
+                    "Optimización de algoritmos de detección"
+                ]
             }
         ],
         education: [
@@ -480,13 +509,42 @@ except Exception as e:
             title: "Technical Expertise",
             description: "I combine engineering precision with creative problem solving to deliver software that drives business growth."
         },
+        skills_section: {
+            title: "skills",
+            subtitle: "Select a view to explore my tech stack.",
+            tabs: {
+                ide: "IDE",
+                constellation: "Ecosystem"
+            },
+            skills: {
+                python: { label: "Python", description: "Scripting, AI, and robust Backend." },
+                java: { label: "Java", description: "Enterprise systems and OOP." },
+                cpp: { label: "C++", description: "High performance and embedded systems." },
+                sql: { label: "SQL", description: "Efficient database management." },
+                js: { label: "JavaScript", description: "Interactivity and Frontend logic." },
+                react: { label: "React", description: "Modern and reactive interfaces." },
+                docker: { label: "Docker", description: "Containerization and deployment." },
+                linux: { label: "Linux", description: "System administration and servers." },
+                git: { label: "Git", description: "Version control and collaboration." },
+                cloud: { label: "Cloud / IoT", description: "Infrastructure and connected devices." },
+                ai: { label: "AI & DL", description: "Neural networks and predictive models." },
+                cyber: { label: "Security", description: "Network auditing and protection." },
+                apis: { label: "REST APIs", description: "Service connection." }
+            }
+        },
         experience: [
             {
                 id: '1',
                 company: "Cojali S. L.",
                 role: "AI Diagnostic Test Engineer",
-                period: "2025",
-                description: "Development of AI-driven diagnostic tests. Training contract focused on automotive and technological innovation in Campo de Criptana."
+                year: "2025",
+                description: "Development of AI-driven diagnostic tests. Training contract focused on automotive and technological innovation in Campo de Criptana.",
+                techStack: ["Python", "TensorFlow", "AutoML", "Big Data"],
+                responsibilities: [
+                    "Development of AI-driven diagnostics",
+                    "Innovation in automotive systems",
+                    "Optimization of detection algorithms"
+                ]
             }
         ],
         education: [

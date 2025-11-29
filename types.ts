@@ -62,6 +62,18 @@ export interface TranslationData {
     title: string;
     description: string;
   };
+  skills_section: {
+    title: string;
+    subtitle: string;
+    tabs: {
+      ide: string;
+      constellation: string;
+    };
+    skills: Record<string, {
+      label: string;
+      description: string;
+    }>;
+  };
   experience: ExperienceItem[];
   education: EducationItem[]; // Using EducationItem instead of EducationCommit to match current project
   projects: Project[];
@@ -95,10 +107,12 @@ export interface EducationItem {
 
 export interface ExperienceItem {
   id: string;
-  role: string;
   company: string;
-  period: string;
+  role: string;
+  year: string; // Changed from period to year to match new data
   description: string;
+  techStack: string[]; // Added
+  responsibilities: string[]; // Renamed from achievements
 }
 
 export interface Service {
