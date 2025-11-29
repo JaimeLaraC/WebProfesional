@@ -2,8 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, MessageCircle } from 'lucide-react';
 import { sendMessageToGemini } from '../services/geminiService';
 import { ChatMessage, ChatRole } from '../types';
+import { useLanguage } from '../context/LanguageContext';
+import TextReveal from './TextReveal';
 
 export const ChatWidget: React.FC = () => {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +14,7 @@ export const ChatWidget: React.FC = () => {
     {
       id: 'welcome',
       role: ChatRole.MODEL,
-      text: '¡Hola! Soy el asistente virtual de Jaime. ¿En qué puedo ayudarte?',
+      text: 'welcome_message_placeholder', // Placeholder, will be replaced by t.chat.welcome
       timestamp: new Date()
     }
   ]);
@@ -40,7 +43,10 @@ export const ChatWidget: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const history = messages.map(m => ({ role: m.role, text: m.text }));
+      const history = messages.map(m => ({
+        role: m.role,
+        text: m.id === 'welcome' ? t.chat.welcome : m.text
+      }));
       const responseText = await sendMessageToGemini(userMsg.text, history);
 
       const botMsg: ChatMessage = {
@@ -54,7 +60,7 @@ export const ChatWidget: React.FC = () => {
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: ChatRole.MODEL,
-        text: "Tengo problemas de conexión en este momento. Por favor, inténtalo de nuevo.",
+        text: t.chat.error,
         timestamp: new Date(),
         isError: true
       };
@@ -76,10 +82,12 @@ export const ChatWidget: React.FC = () => {
           {/* Header */}
           <div className="bg-gray-50 p-4 flex justify-between items-center border-b border-gray-100">
             <div className="flex items-center gap-2">
-               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-               <span className="font-semibold text-sm text-gray-700">Asistente IA</span>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="font-semibold text-sm text-gray-700">
+                <TextReveal text={t.chat.title} />
+              </span>
             </div>
-            <button 
+            <button
               onClick={() => setIsOpen(false)}
               className="text-gray-400 hover:text-black transition-colors"
             >
@@ -90,29 +98,28 @@ export const ChatWidget: React.FC = () => {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
             {messages.map((msg) => (
-              <div 
-                key={msg.id} 
+              <div
+                key={msg.id}
                 className={`flex ${msg.role === ChatRole.USER ? 'justify-end' : 'justify-start'}`}
               >
-                <div 
-                  className={`max-w-[85%] text-sm px-4 py-2.5 rounded-2xl ${
-                    msg.role === ChatRole.USER 
-                      ? 'bg-black text-white rounded-tr-none' 
+                <div
+                  className={`max-w-[85%] text-sm px-4 py-2.5 rounded-2xl ${msg.role === ChatRole.USER
+                      ? 'bg-black text-white rounded-tr-none'
                       : 'bg-gray-100 text-gray-800 rounded-tl-none'
-                  } ${msg.isError ? 'bg-red-50 text-red-500' : ''}`}
+                    } ${msg.isError ? 'bg-red-50 text-red-500' : ''}`}
                 >
-                  {msg.text}
+                  {msg.id === 'welcome' ? t.chat.welcome : msg.text}
                 </div>
               </div>
             ))}
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-gray-100 px-4 py-2 rounded-2xl rounded-tl-none">
-                   <div className="flex gap-1">
-                     <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
-                     <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-75"></span>
-                     <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-150"></span>
-                   </div>
+                  <div className="flex gap-1">
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-75"></span>
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-150"></span>
+                  </div>
                 </div>
               </div>
             )}
@@ -127,10 +134,10 @@ export const ChatWidget: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
-                placeholder="Pregúntame algo..."
+                placeholder={t.chat.placeholder}
                 className="w-full bg-gray-50 border border-gray-200 rounded-full pl-4 pr-10 py-2.5 text-sm focus:outline-none focus:border-gray-400 focus:bg-white text-gray-800 placeholder-gray-400 transition-all"
               />
-              <button 
+              <button
                 onClick={handleSend}
                 disabled={isLoading || !input.trim()}
                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-black text-white rounded-full hover:scale-105 disabled:opacity-30 disabled:hover:scale-100 transition-all"
@@ -143,7 +150,7 @@ export const ChatWidget: React.FC = () => {
       )}
 
       {/* Toggle Button */}
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-14 h-14 bg-black text-white rounded-full shadow-xl hover:scale-110 transition-transform duration-300 flex items-center justify-center"
       >

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Code2, Terminal, Database, Globe, Cpu, Shield, Layers, GitBranch, Box, FileJson, Server, Coffee, Braces, Command } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import TextReveal from './TextReveal';
 
 // Helper components for icons not directly in lucide-react (simulated or replaced)
 const BrainCircuitIcon = ({ size }: { size: number }) => <Cpu size={size} />; // Fallback
@@ -24,6 +26,8 @@ const skillsData = [
 ];
 
 export const Skills: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="skills" className="min-h-screen flex flex-col items-center justify-center py-24 relative overflow-hidden bg-[#F3F2F0]">
 
@@ -37,7 +41,9 @@ export const Skills: React.FC = () => {
 
         {/* Header */}
         <div className="flex justify-center mb-20 reveal">
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tight font-display text-black">habilidades<span className="text-black">.</span></h2>
+          <h2 className="text-5xl md:text-7xl font-bold tracking-tight font-display text-black">
+            <TextReveal text={t.titles.skills} /><span className="text-black">.</span>
+          </h2>
         </div>
 
         {/* Skills Grid */}

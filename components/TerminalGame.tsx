@@ -85,7 +85,7 @@ const INITIAL_FS: FileSystemNode = {
               }
             },
             'skills.md': { type: 'file', content: '# Habilidades Técnicas\n\n- Python: Experto\n- React/TS: Avanzado\n- Ciberseguridad: Avanzado\n- Linux: Nativo' },
-            'contacto.txt': { type: 'file', content: 'Email: contact@jaime.dev\nLinkedIn: /in/jaime-lara-contento\nGitHub: @jaime-dev' },
+            'contacto.txt': { type: 'file', content: 'Email: jaime.lara@alu.uclm.es\nLinkedIn: /in/jaime-lara-contento\nGitHub: @JaimeLaraC' },
             'secret.txt': { type: 'file', content: '¡Felicidades! Has encontrado el archivo secreto. La contraseña es: "MARCO_AURELIO"' }
           }
         }
@@ -142,6 +142,10 @@ const SnakeGame: React.FC<{ onExit: () => void, theme: ThemeConfig }> = ({ onExi
         if (e.key === 'Enter') onExit();
         return;
       }
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+
       switch (e.key) {
         case 'ArrowUp': if (dir[1] !== 1) setDir([0, -1]); break;
         case 'ArrowDown': if (dir[1] !== -1) setDir([0, 1]); break;
@@ -547,8 +551,15 @@ const MatrixRain: React.FC<{ onStop: () => void }> = ({ onStop }) => {
   );
 };
 
+import { useLanguage } from '../context/LanguageContext';
+
+// ... (previous imports)
+
+// ... (previous code)
+
 // --- MAIN COMPONENT ---
 export const TerminalGame: React.FC = () => {
+  const { t } = useLanguage();
   const [fs, setFs] = useState<FileSystemNode>(INITIAL_FS);
   const [path, setPath] = useState<string[]>(['home', 'guest']);
   const [history, setHistory] = useState<CommandHistory[]>([]);
@@ -572,9 +583,11 @@ export const TerminalGame: React.FC = () => {
   // Boot Sequence
   useEffect(() => {
     const lines = [
-      "JaimeOS v3.0.0-interactive (tty1)",
-      "Cargando módulos de gamificación...",
-      "Inicializando motor gráfico ASCII...",
+      t.terminal.welcome,
+      t.terminal.system,
+      t.terminal.help_prompt,
+      t.terminal.try,
+      t.terminal.processing,
       "[ OK ] Loaded 'Snake' Module.",
       "[ OK ] Loaded 'Quiz' Module.",
       "[ OK ] Loaded 'AI-Trainer' Module.",
@@ -588,7 +601,7 @@ export const TerminalGame: React.FC = () => {
         if (i === lines.length - 1) setTimeout(() => setIsBooting(false), 500);
       }, delay);
     });
-  }, []);
+  }, [t]);
 
   // System Crash Effect
   useEffect(() => {
@@ -604,9 +617,14 @@ export const TerminalGame: React.FC = () => {
   // Auto-scroll fix
   useEffect(() => {
     if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      // Use setTimeout to ensure DOM is fully updated before scrolling
+      setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+      }, 10);
     }
-  }, [history, bootLines, isBooting, activeProcess, isMaximized]);
+  }, [history, bootLines, isBooting, activeProcess, isMaximized, input]); // Added input to keep view at bottom while typing if needed
 
   const focusInput = () => {
     if (!isBooting && !activeProcess) inputRef.current?.focus();
@@ -668,7 +686,7 @@ export const TerminalGame: React.FC = () => {
       case 'rm':
         if (args[1] === '-rf' && args[2] === '/') {
           setSystemCrash(true);
-          return; // Don't add command to history immediately
+          output = <span className="text-red-500 animate-pulse">SYSTEM FAILURE... DELETING ROOT...</span>;
         } else {
           output = <span className="text-red-400">Permiso denegado. Intenta ser más destructivo.</span>;
         }
@@ -759,9 +777,7 @@ export const TerminalGame: React.FC = () => {
         output = <span className="text-red-400">{cmd}: orden no encontrada. Escribe 'help'.</span>;
     }
 
-    if (!activeProcess && cmd !== 'snake' && cmd !== 'quiz' && cmd !== 'ai') {
-      setHistory(prev => [...prev, { id: Date.now(), command: cmdRaw, output, path: currentPathStr }]);
-    }
+    setHistory(prev => [...prev, { id: Date.now(), command: cmdRaw, output, path: currentPathStr }]);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -891,7 +907,7 @@ export const TerminalGame: React.FC = () => {
 
           {/* Terminal Content Area */}
           <div
-            className={`p-6 flex-1 overflow-y-auto ${theme.text} ${theme.bg} cursor-text custom-scrollbar scroll-smooth relative transition-colors duration-500`}
+            className={`p-6 flex-1 overflow-y-auto ${theme.text} ${theme.bg} cursor-text custom-scrollbar relative transition-colors duration-500`}
             onClick={focusInput}
             ref={containerRef}
             style={{ textShadow: '0 0 2px rgba(100, 255, 100, 0.1)' }}

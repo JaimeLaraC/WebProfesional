@@ -9,7 +9,11 @@ import { Contact } from './components/Contact';
 import { ChatWidget } from './components/ChatWidget';
 import { TerminalGame } from './components/TerminalGame';
 
-const App: React.FC = () => {
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import TextReveal from './components/TextReveal';
+
+const AppContent: React.FC = () => {
+  const { t } = useLanguage();
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const cursorOutlineRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +27,7 @@ const App: React.FC = () => {
         cursorDotRef.current.style.left = `${posX}px`;
         cursorDotRef.current.style.top = `${posY}px`;
       }
-      
+
       if (cursorOutlineRef.current) {
         cursorOutlineRef.current.animate({
           left: `${posX}px`,
@@ -54,7 +58,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F3F2F0] font-sans text-text-primary selection:bg-black selection:text-white cursor-none">
-      
+
       {/* Custom Cursor Elements */}
       <div ref={cursorDotRef} className="cursor-dot hidden md:block"></div>
       <div ref={cursorOutlineRef} className="cursor-outline hidden md:block"></div>
@@ -67,15 +71,24 @@ const App: React.FC = () => {
         <Projects />
         <Skills />
       </main>
-      
+
+      {/* New Terminal Section */}
       {/* New Terminal Section */}
       <TerminalGame />
-      
+
       <Contact />
-      
+
       {/* AI Assistant */}
       <ChatWidget />
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 };
 

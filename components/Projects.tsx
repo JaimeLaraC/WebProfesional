@@ -1,45 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Project } from '../types';
-
-const projects: Project[] = [
-  {
-    id: '1',
-    title: 'Bot de Telegram IA',
-    description: 'Diseñé y programé un bot de Telegram utilizando Python y la API de Telegram. Integra funcionalidades avanzadas como respuestas automáticas y conexión con APIs externas (ChatGPT) para interacciones inteligentes.',
-    tags: ['Python', 'Telegram API', 'ChatGPT'],
-  },
-  {
-    id: '2',
-    title: 'Cloud con Raspberry Pi',
-    description: 'Configuré y gestioné un servidor Nextcloud en una Raspberry Pi para crear una nube privada. Permite almacenar, sincronizar y acceder a archivos de manera segura desde cualquier dispositivo en la red.',
-    tags: ['Raspberry Pi', 'Nextcloud', 'Linux'],
-  },
-  {
-    id: '3',
-    title: 'Detección con Dron',
-    description: 'Sistema de detección de vehículos en tiempo real utilizando YOLOv5 y un dron. Permite identificar y rastrear vehículos en movimiento, optimizando el análisis visual aéreo.',
-    tags: ['YOLOv5', 'Python', 'Computer Vision'],
-  },
-  {
-    id: '4',
-    title: 'Predicción Deportiva IA',
-    description: 'Modelo de IA para predecir resultados de fútbol. Analiza datos históricos y estadísticas clave (goles, posesión, rendimiento) para ofrecer predicciones precisas.',
-    tags: ['AI', 'Machine Learning', 'Data Science'],
-  },
-  {
-    id: '5',
-    title: 'Diagnóstico IA',
-    description: 'Sistema avanzado de diagnóstico para automoción impulsado por inteligencia artificial, mejorando la precisión y rapidez en la detección de fallos mecánicos.',
-    tags: ['AI', 'Python', 'Machine Learning'],
-  },
-  {
-    id: '6',
-    title: 'Auditoría WiFi',
-    description: 'Herramienta de ciberseguridad para auditoría y pentesting de redes inalámbricas, permitiendo identificar vulnerabilidades en protocolos WPA/WPA2.',
-    tags: ['Cybersecurity', 'Hacking', 'Python'],
-  }
-];
+import { AnimatePresence, motion } from 'framer-motion';
+import VSCodeViewer from './VSCodeViewer';
+import { useLanguage } from '../context/LanguageContext';
+import TextReveal from './TextReveal';
 
 const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -71,16 +36,31 @@ const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({
 };
 
 export const Projects: React.FC = () => {
+  const { t } = useLanguage();
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
+
+  const openProject = (project: Project) => {
+    setActiveProject(project);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeProject = () => {
+    setActiveProject(null);
+    document.body.style.overflow = 'auto';
+  };
+
   return (
     <section id="projects" className="py-24 bg-[#F3F2F0]">
       <div className="container mx-auto px-6 md:px-12">
 
         <div className="flex justify-center mb-16 reveal">
-          <h2 className="text-5xl md:text-6xl font-bold tracking-tight font-display">proyectos<span className="text-brand-accent">.</span></h2>
+          <h2 className="text-5xl md:text-6xl font-bold tracking-tight font-display">
+            <TextReveal text={t.titles.projects} /><span className="text-brand-accent">.</span>
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {t.projects.map((project, index) => (
             <div
               key={project.id}
               className="reveal"
@@ -90,16 +70,19 @@ export const Projects: React.FC = () => {
 
                 {/* Header */}
                 <div className="flex justify-between items-start transform translate-z-10 group-hover:translate-z-20 transition-transform">
-                  <h3 className="text-3xl font-bold max-w-[70%] leading-tight text-gray-800 font-display">{project.title}</h3>
-                  <div className="w-12 h-12 rounded-full border border-gray-400 flex items-center justify-center group-hover:bg-black group-hover:text-white group-hover:border-black transition-all duration-300 group-hover:rotate-45">
+                  <h3 className="text-3xl font-bold max-w-[70%] leading-tight text-gray-800 font-display"><TextReveal text={project.title} /></h3>
+                  <button
+                    onClick={() => openProject(project)}
+                    className="w-12 h-12 rounded-full border border-gray-400 flex items-center justify-center group-hover:bg-black group-hover:text-white group-hover:border-black transition-all duration-300 group-hover:rotate-45 cursor-pointer"
+                  >
                     <ArrowUpRight size={22} />
-                  </div>
+                  </button>
                 </div>
 
                 {/* Body */}
                 <div className="relative z-10 mt-8 mb-8 transform translate-z-10 group-hover:translate-z-20 transition-transform">
                   <p className="text-gray-600 text-base leading-relaxed font-medium">
-                    {project.description}
+                    <TextReveal text={project.description} />
                   </p>
                 </div>
 
@@ -123,6 +106,36 @@ export const Projects: React.FC = () => {
         </div>
 
       </div>
+
+      {/* VS Code Modal Overlay */}
+      <AnimatePresence>
+        {activeProject && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeProject}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, rotateX: -20, y: 100 }}
+              animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, rotateX: 20, y: 100 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-6xl h-[85vh] relative z-10"
+              style={{ perspective: 1000 }}
+            >
+              <VSCodeViewer
+                initialProject={activeProject}
+                projects={t.projects}
+                onClose={closeProject}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

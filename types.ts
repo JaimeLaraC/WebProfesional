@@ -14,13 +14,72 @@ export interface ChatMessage {
   isError?: boolean;
 }
 
+export type Language = 'es' | 'en';
+
+export interface TranslationData {
+  nav: {
+    about: string;
+    experience: string;
+    education: string;
+    projects: string;
+    skills: string;
+    terminal: string;
+  };
+  hero: {
+    greeting: string;
+    role: string;
+    description_start: string;
+    description_bold_1: string;
+    description_mid: string;
+    description_bold_2: string;
+    description_end: string;
+    quote: string;
+  };
+  titles: {
+    experience: string;
+    education: string;
+    projects: string;
+    skills: string;
+    terminal: string;
+    ready: string;
+    talk: string;
+    footer: string;
+  };
+  terminal: {
+    welcome: string;
+    system: string;
+    help_prompt: string;
+    try: string;
+    processing: string;
+  };
+  chat: {
+    title: string;
+    welcome: string;
+    placeholder: string;
+    error: string;
+  };
+  services_section: {
+    title: string;
+    description: string;
+  };
+  experience: ExperienceItem[];
+  education: EducationItem[]; // Using EducationItem instead of EducationCommit to match current project
+  projects: Project[];
+  services: Service[];
+}
+
 export interface Project {
   id: string;
   title: string;
   description: string;
   tags: string[];
-  imageUrl?: string; 
+  imageUrl?: string;
   link?: string;
+  // VS Code Viewer Props
+  fileName?: string;
+  language?: string;
+  code?: string;
+  runOutput?: string;
 }
 
 export interface EducationItem {
@@ -28,6 +87,10 @@ export interface EducationItem {
   school: string;
   degree: string;
   imageUrl: string;
+  // Git Graph Props
+  year?: string;
+  skills?: string[];
+  type?: 'degree' | 'certification';
 }
 
 export interface ExperienceItem {
