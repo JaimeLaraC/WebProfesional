@@ -87,7 +87,7 @@ export const Hero: React.FC = () => {
           <span className="text-yellow-600 dark:text-yellow-400">{'{'}</span><br />
           &nbsp;&nbsp;<span className="text-blue-600 dark:text-blue-400">"<ScrambleText text={t.hero.ide.stack.frontend} />"</span>: <span className="text-green-600 dark:text-green-400">["React", "Next.js", "Tailwind"]</span>,<br />
           &nbsp;&nbsp;<span className="text-blue-600 dark:text-blue-400">"<ScrambleText text={t.hero.ide.stack.backend} />"</span>: <span className="text-green-600 dark:text-green-400">["Python", "Node", "FastAPI"]</span>,<br />
-          &nbsp;&nbsp;<span className="text-blue-600 dark:text-blue-400">"<ScrambleText text={t.hero.ide.stack.ai} />"</span>: <span className="text-green-600 dark:text-green-400">["Gemini", "TensorFlow", "OpenAI"]</span>,<br />
+          &nbsp;&nbsp;<span className="text-blue-600 dark:text-blue-400">"<ScrambleText text={t.hero.ide.stack.ai} />"</span>: <span className="text-green-600 dark:text-green-400">["TensorFlow", "OpenAI"]</span>,<br />
           &nbsp;&nbsp;<span className="text-blue-600 dark:text-blue-400">"<ScrambleText text={t.hero.ide.stack.status} />"</span>: <span className="text-purple-600 dark:text-purple-400">true</span><br />
           <span className="text-yellow-600 dark:text-yellow-400">{'}'}</span>
         </>
