@@ -68,7 +68,7 @@ export const TRANSLATIONS: Record<'es' | 'en', TranslationData> = {
             terminal: "Terminal Mode",
             ready: "¿Listo para crear algo increíble?",
             talk: "Hablemos 👋",
-            footer: "Creado con React & IA por Jaime Lara"
+            footer: "Creado por Jaime Lara"
         },
         terminal: {
             welcome: "Bienvenido a JaimeOS v3.0.0",
@@ -564,7 +564,7 @@ except Exception as e:
             terminal: "Terminal Mode",
             ready: "Ready to create something amazing?",
             talk: "Let's Talk 👋",
-            footer: "Created with React & AI by Jaime Lara"
+            footer: "Created by Jaime Lara"
         },
         terminal: {
             welcome: "Welcome to JaimeOS v3.0.0",
