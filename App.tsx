@@ -6,7 +6,7 @@ import { Education } from './components/Education';
 import { Projects } from './components/Projects';
 import { Skills } from './components/Skills';
 import { Contact } from './components/Contact';
-import { ChatWidget } from './components/ChatWidget';
+
 import { TerminalGame } from './components/TerminalGame';
 
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
@@ -80,7 +80,7 @@ const AppContent: React.FC = () => {
       <Contact />
 
       {/* AI Assistant */}
-      <ChatWidget />
+
     </div>
   );
 };
