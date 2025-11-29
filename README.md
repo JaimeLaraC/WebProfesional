@@ -72,10 +72,3 @@ WebProfesional/
 ├── App.tsx           # Componente principal
 └── main.tsx          # Punto de entrada
 ```
-
-## 📬 Contacto
-
-Si te interesa mi trabajo o quieres colaborar, ¡no dudes en contactarme!
-
----
-*Desarrollado con ❤️ por Jaime Lara*
