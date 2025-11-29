@@ -8,27 +8,6 @@ const experienceData: ExperienceItem[] = [
     company: 'Cojali S. L.',
     period: '2025',
     description: 'Desarrollo de pruebas de diagnóstico impulsadas por inteligencia artificial. Contrato de formación enfocado en la innovación automotriz y tecnológica en Campo de Criptana.'
-  },
-  {
-    id: '2',
-    role: 'Desarrollador de Software',
-    company: 'Minsait',
-    period: 'Experiencia Previa',
-    description: 'Desarrollo de soluciones tecnológicas integrales y transformación digital en una de las empresas líderes en consultoría y tecnología.'
-  },
-  {
-    id: '3',
-    role: 'Desarrollador de Software',
-    company: 'Inetum',
-    period: 'Experiencia Previa',
-    description: 'Participación en proyectos de servicios TI ágiles, contribuyendo al desarrollo e implementación de software empresarial.'
-  },
-  {
-    id: '4',
-    role: 'Desarrollador de Software',
-    company: 'NTT DATA',
-    period: 'Experiencia Previa',
-    description: 'Colaboración en proyectos de consultoría tecnológica y servicios de sistemas, enfocados en innovación y escalabilidad.'
   }
 ];
 
@@ -60,9 +39,6 @@ export const Experience: React.FC = () => {
                 <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
                   {item.description}
                 </p>
-                <div className="mt-8 text-8xl font-bold text-gray-50 absolute bottom-[-20px] right-6 -z-10 select-none font-display">
-                  0{index + 1}
-                </div>
               </div>
             </div>
           ))}
