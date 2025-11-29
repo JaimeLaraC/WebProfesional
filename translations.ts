@@ -14,14 +14,51 @@ export const TRANSLATIONS: Record<'es' | 'en', TranslationData> = {
             terminal: "Terminal"
         },
         hero: {
-            greeting: "Hola, soy",
-            role: "Ingeniero de Software",
-            description_start: "Apasionado por la",
-            description_bold_1: "ciencia",
-            description_mid: "y la",
-            description_bold_2: "tecnología",
-            description_end: ". Me caracterizo por un aprendizaje rápido, una alta capacidad de adaptación y un enfoque orientado a encontrar soluciones innovadoras que aporten valor.",
-            quote: "\"La felicidad de tu vida depende de la calidad de tus pensamientos.\" — Marco Aurelio"
+            greeting: "HELLO_WORLD",
+            role: "Ingeniero de Software & IA",
+            description_start: "",
+            description_bold_1: "",
+            description_mid: "",
+            description_bold_2: "",
+            description_end: "",
+            quote: "",
+            system_status: "Sistema Operativo",
+            user_id: "JL-2025",
+            subtitle: "SOY JAIME",
+            stats: [
+                { label: "Rol", value: "Software Engineer" },
+                { label: "Ubicación", value: "España (Remoto)" },
+                { label: "Estado", value: "Disponible" },
+                { label: "Enfoque", value: "Crear Impacto " }
+            ],
+            ide: {
+                bio: {
+                    comment: "// Ejecutando secuencia_bio...",
+                    variable: "desarrollador",
+                    value: "Jaime Lara",
+                    function: "mision",
+                    return: "Transformar problemas complejos en código limpio."
+                },
+                stack: {
+                    frontend: "frontend",
+                    backend: "backend",
+                    ai: "ia",
+                    status: "estado"
+                },
+                mindset: {
+                    title: "# Principios_Core",
+                    p1: "- El código es poesía, la lógica es arte.",
+                    p2: "- El fracaso es solo una variable no definida.",
+                    mantra_title: "## Mantra",
+                    mantra: "\"No se trata de que funcione. Se trata de que escale.\""
+                },
+                status: {
+                    info_loc: "Ubicación: España (Remoto)",
+                    info_energy: "Energía: 85% (Se requiere café)",
+                    warn: "Fecha límite acercándose",
+                    ok: "Listo para colaborar"
+                }
+            }
         },
         titles: {
             experience: "experiencia",
@@ -473,14 +510,51 @@ except Exception as e:
             terminal: "Terminal"
         },
         hero: {
-            greeting: "Hi, I'm",
-            role: "Software Engineer",
-            description_start: "Passionate about",
-            description_bold_1: "science",
-            description_mid: "and",
-            description_bold_2: "technology",
-            description_end: ". I am characterized by quick learning, high adaptability, and a focus on finding innovative solutions that provide value.",
-            quote: "\"The happiness of your life depends upon the quality of your thoughts.\" — Marcus Aurelius"
+            greeting: "HELLO_WORLD",
+            role: "Software Engineer & AI",
+            description_start: "",
+            description_bold_1: "",
+            description_mid: "",
+            description_bold_2: "",
+            description_end: "",
+            quote: "",
+            system_status: "System Operational",
+            user_id: "JL-2025",
+            subtitle: "I AM JAIME",
+            stats: [
+                { label: "Role", value: "Software Engineer" },
+                { label: "Location", value: "Spain (Remote)" },
+                { label: "Status", value: "Available" },
+                { label: "Focus", value: "Creating Impact 🚀" }
+            ],
+            ide: {
+                bio: {
+                    comment: "// Executing bio_sequence...",
+                    variable: "developer",
+                    value: "Jaime Lara",
+                    function: "mission",
+                    return: "Transform complex problems into clean code."
+                },
+                stack: {
+                    frontend: "frontend",
+                    backend: "backend",
+                    ai: "ai",
+                    status: "status"
+                },
+                mindset: {
+                    title: "# Core_Principles",
+                    p1: "- Code is poetry, logic is art.",
+                    p2: "- Failure is just an undefined variable.",
+                    mantra_title: "## Mantra",
+                    mantra: "\"It's not about working. It's about scaling.\""
+                },
+                status: {
+                    info_loc: "Location: Spain (Remote)",
+                    info_energy: "Energy: 85% (Coffee required)",
+                    warn: "Deadline approaching",
+                    ok: "Ready to collaborate"
+                }
+            }
         },
         titles: {
             experience: "experience",

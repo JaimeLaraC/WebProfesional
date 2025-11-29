@@ -165,7 +165,7 @@ const EducationGit: React.FC = () => {
                                                             <span>import</span>
                                                             <span className="text-yellow-300/90 font-bold">{skill.replace(/ /g, '_')}</span>
                                                             <span>from</span>
-                                                            <span className="text-orange-300/90">'{edu.school}'</span>
+                                                            <span className="text-orange-300/90">'<TextReveal text={edu.school} />'</span>
                                                         </div>
                                                     </div>
                                                 ))}

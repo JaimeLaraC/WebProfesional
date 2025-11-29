@@ -200,7 +200,7 @@ const ConstellationView: React.FC = () => {
           style={{ left: '50%', top: '50%' }}
           onMouseEnter={() => setHoveredNode('core')}
         >
-          <div className="relative w-24 h-24 bg-black rounded-full flex items-center justify-center text-white shadow-2xl ring-4 ring-white/50 animate-pulse">
+          <div className="relative w-24 h-24 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-black shadow-2xl ring-4 ring-white/50 animate-pulse">
             <User size={32} />
           </div>
         </div>
@@ -216,7 +216,7 @@ const ConstellationView: React.FC = () => {
               className="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center transition-all duration-500 ease-out cursor-pointer z-10"
               style={{ left: `${node.x}%`, top: `${node.y}%`, transform: `translate(-50%, -50%) translate(${parallaxX}px, ${parallaxY}px)`, zIndex: isHovered ? 50 : 10 }}
             >
-              <div className={`relative rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-md border border-white/20 w-14 h-14 shadow-lg ${node.bg} ${node.color} ${isHovered ? `scale-110 ${node.ring} ring-4 ring-offset-2 ring-offset-[#F3F2F0]` : 'scale-100 grayscale-[0.5] opacity-80'}`}>
+              <div className={`relative rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-md dark:bg-zinc-900/80 border border-white/20 w-14 h-14 shadow-lg ${node.bg} ${node.color} ${isHovered ? `scale-110 ${node.ring} ring-4 ring-offset-2 ring-offset-[#F3F2F0] dark:ring-offset-[#050505]` : 'scale-100 grayscale-[0.5] opacity-80'}`}>
                 {node.icon}
               </div>
             </div>
@@ -227,15 +227,15 @@ const ConstellationView: React.FC = () => {
       {/* Tooltip */}
       <div className={`absolute bottom-8 right-8 z-50 pointer-events-none transition-all duration-300 ease-out transform ${hoveredNode && hoveredNode !== 'core' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         {activeNodeData && activeNodeTranslation && (
-          <div className="bg-white/80 backdrop-blur-xl border border-white/50 p-6 rounded-2xl shadow-2xl w-80 relative overflow-hidden">
+          <div className="bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xl border border-white/50 dark:border-white/10 p-6 rounded-2xl shadow-2xl w-80 relative overflow-hidden">
             <div className={`absolute top-0 left-0 w-1 h-full ${activeNodeData.bg.replace('/20', '')}`}></div>
             <div className="flex items-center gap-3 mb-2">
               <div className={`p-2 rounded-lg ${activeNodeData.bg} ${activeNodeData.color}`}>{activeNodeData.icon}</div>
-              <h3 className="text-xl font-bold font-display text-gray-900">
+              <h3 className="text-xl font-bold font-display text-gray-900 dark:text-white">
                 <TextReveal text={activeNodeTranslation.label} />
               </h3>
             </div>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
               <TextReveal text={activeNodeTranslation.description} />
             </p>
           </div>
@@ -258,7 +258,7 @@ const IDEView: React.FC = () => {
   const categories = ['Backend', 'Frontend', 'DevOps', 'Core'];
 
   return (
-    <div className="w-full max-w-5xl mx-auto h-[600px] bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-[#333] font-mono text-sm">
+    <div className="w-full max-w-5xl mx-auto h-[600px] bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-[#333] dark:border-white/10 font-mono text-sm">
       {/* Sidebar */}
       <div className="w-full md:w-64 bg-[#252526] flex flex-col border-r border-[#333]">
         <div className="p-3 text-gray-400 text-xs uppercase tracking-wider font-bold">Explorer</div>
@@ -319,9 +319,9 @@ const IDEView: React.FC = () => {
               {'\n'}
               <span className="text-blue-400">  "id"</span>: <span className="text-orange-400">"{activeNode.id}"</span>,
               {'\n'}
-              <span className="text-blue-400">  "name"</span>: <span className="text-green-400">"{activeNodeTranslation?.label}"</span>,
+              <span className="text-blue-400">  "name"</span>: <span className="text-green-400">"<TextReveal text={activeNodeTranslation?.label || ''} />"</span>,
               {'\n'}
-              <span className="text-blue-400">  "description"</span>: <span className="text-orange-400">"{activeNodeTranslation?.description}"</span>,
+              <span className="text-blue-400">  "description"</span>: <span className="text-orange-400">"<TextReveal text={activeNodeTranslation?.description || ''} />"</span>,
               {'\n'}
               <span className="text-blue-400">  "config"</span>: <span className="text-yellow-400">{activeNode.codeSnippet || '"standard config"'}</span>,
               {'\n'}
@@ -371,20 +371,20 @@ export const Skills: React.FC = () => {
   };
 
   return (
-    <section id="skills" className="min-h-screen py-24 relative bg-[#F3F2F0]">
+    <section id="skills" className="min-h-screen py-24 relative bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
 
       <div className="container mx-auto px-6 z-10 w-full">
         <ScrollReveal>
           <div className="flex flex-col items-center justify-center mb-12 text-center">
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight font-display text-black mb-4">
-              <TextReveal text={t.skills_section.title} /><span className="text-brand-accent">.</span>
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tight font-display text-black dark:text-white mb-4">
+              <TextReveal text={t.skills_section.title} /><span className="text-brand-accent dark:text-blue-500">.</span>
             </h2>
-            <p className="text-gray-500 mb-8 max-w-lg">
+            <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-lg">
               <TextReveal text={t.skills_section.subtitle} />
             </p>
 
             {/* View Selector Tabs */}
-            <div className="flex flex-wrap justify-center gap-2 bg-white/50 p-2 rounded-full backdrop-blur-md shadow-sm border border-white/60 mb-12">
+            <div className="flex flex-wrap justify-center gap-2 bg-white/50 dark:bg-zinc-900/50 p-2 rounded-full backdrop-blur-md shadow-sm border border-white/60 dark:border-white/10 mb-12">
               {[
                 { id: 'ide', label: t.skills_section.tabs.ide },
                 { id: 'constellation', label: t.skills_section.tabs.constellation },
@@ -395,8 +395,8 @@ export const Skills: React.FC = () => {
                   className={`
                      px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
                      ${viewMode === mode.id
-                      ? 'bg-black text-white shadow-md'
-                      : 'text-gray-500 hover:bg-black/5 hover:text-black'
+                      ? 'bg-black dark:bg-white text-white dark:text-black shadow-md'
+                      : 'text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/10 hover:text-black dark:hover:text-white'
                     }
                    `}
                 >

@@ -976,7 +976,6 @@ export const TerminalGame: React.FC = () => {
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={handleKeyDown}
                       className="bg-transparent border-none outline-none text-inherit focus:ring-0 p-0 w-full font-medium caret-transparent"
-                      autoFocus
                       spellCheck={false}
                       autoComplete="off"
                       autoCapitalize="none"

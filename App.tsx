@@ -10,6 +10,7 @@ import { ChatWidget } from './components/ChatWidget';
 import { TerminalGame } from './components/TerminalGame';
 
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { ThemeProvider } from './context/ThemeContext';
 import TextReveal from './components/TextReveal';
 
 const AppContent: React.FC = () => {
@@ -57,11 +58,11 @@ const AppContent: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F3F2F0] font-sans text-text-primary selection:bg-black selection:text-white cursor-none">
+    <div className="min-h-screen bg-[#F3F2F0] dark:bg-[#050505] font-sans text-text-primary dark:text-gray-100 selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black cursor-none transition-colors duration-500">
 
       {/* Custom Cursor Elements */}
-      <div ref={cursorDotRef} className="cursor-dot hidden md:block"></div>
-      <div ref={cursorOutlineRef} className="cursor-outline hidden md:block"></div>
+      <div ref={cursorDotRef} className="cursor-dot hidden md:block z-[9999]"></div>
+      <div ref={cursorOutlineRef} className="cursor-outline hidden md:block z-[9999]"></div>
 
       <Navbar />
       <main>
@@ -87,7 +88,9 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <LanguageProvider>
-      <AppContent />
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </LanguageProvider>
   );
 };

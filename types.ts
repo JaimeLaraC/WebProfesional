@@ -34,6 +34,41 @@ export interface TranslationData {
     description_bold_2: string;
     description_end: string;
     quote: string;
+    system_status: string;
+    user_id: string;
+    subtitle: string;
+    stats: Array<{
+      label: string;
+      value: string;
+    }>;
+    ide: {
+      bio: {
+        comment: string;
+        variable: string;
+        value: string;
+        function: string;
+        return: string;
+      };
+      stack: {
+        frontend: string;
+        backend: string;
+        ai: string;
+        status: string;
+      };
+      mindset: {
+        title: string;
+        p1: string;
+        p2: string;
+        mantra_title: string;
+        mantra: string;
+      };
+      status: {
+        info_loc: string;
+        info_energy: string;
+        warn: string;
+        ok: string;
+      };
+    };
   };
   titles: {
     experience: string;

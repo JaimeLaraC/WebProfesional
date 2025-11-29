@@ -14,7 +14,15 @@ const TextReveal: React.FC<TextRevealProps> = ({ text, className, as: Component 
     const iterations = useRef(0);
     const intervalRef = useRef<number | null>(null);
 
+    const prevTextRef = useRef(text);
+
     useEffect(() => {
+        // Skip animation if text hasn't changed (e.g. initial mount or re-render with same text)
+        if (prevTextRef.current === text) {
+            return;
+        }
+        prevTextRef.current = text;
+
         // Randomize start time slightly (0-100ms) to create a "wave" effect across the page
         // instead of everything animating perfectly in sync.
         const randomStart = Math.random() * 100;
