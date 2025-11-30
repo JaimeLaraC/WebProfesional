@@ -260,10 +260,10 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
                 <div className="w-14"></div>
             </div>
 
-            <div className="flex-1 flex min-h-0">
+            <div className="flex-1 flex flex-col md:flex-row min-h-0">
 
                 {/* Activity Bar */}
-                <div className="w-12 bg-[#333333] flex flex-col items-center py-2 gap-2 text-[#858585] shrink-0 z-20 border-r border-[#1e1e1e]">
+                <div className="hidden md:flex w-12 bg-[#333333] flex-col items-center py-2 gap-2 text-[#858585] shrink-0 z-20 border-r border-[#1e1e1e]">
                     {[
                         { id: 'explorer', icon: FileCode },
                         { id: 'search', icon: Search },
@@ -286,7 +286,7 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
                 </div>
 
                 {/* Sidebar */}
-                <div className={`bg-[#252526] flex flex-col transition-all duration-0 border-r border-[#111] shrink-0 ${isSidebarOpen ? 'w-60 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
+                <div className={`bg-[#252526] flex flex-col transition-all duration-300 border-b md:border-b-0 md:border-r border-[#111] shrink-0 ${isSidebarOpen ? 'h-48 md:h-auto w-full md:w-60 opacity-100' : 'h-0 md:h-auto w-full md:w-0 opacity-0 overflow-hidden'}`}>
                     <div className="h-9 px-4 flex items-center justify-between text-[#BBBBBB] text-[11px] font-bold tracking-wide shrink-0">
                         <span>{activeSidebarView.toUpperCase()}</span>
                         <MoreHorizontal size={16} className="cursor-pointer" />

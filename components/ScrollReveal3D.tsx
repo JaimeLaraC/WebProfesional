@@ -52,7 +52,7 @@ export const ScrollReveal3D: React.FC<ScrollReveal3DProps> = ({
             initial="hidden"
             whileInView="visible"
             exit="exit"
-            viewport={{ once: false, amount: threshold, margin: "-10% 0px -10% 0px" }}
+            viewport={{ once: false, amount: threshold, margin: "0px 0px -10% 0px" }}
             transition={{
                 duration: duration,
                 delay: delay,

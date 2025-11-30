@@ -4,7 +4,7 @@
 
 :root {
   /* Fluid typography: 1rem will scale from 14px at 320px width to 18px at 1920px width */
-  font-size: clamp(14px, 1vw + 10px, 18px);
+  font-size: clamp(12px, 1vw + 10px, 18px);
 }
 
 body {
