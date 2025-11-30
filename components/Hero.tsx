@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
 import { User, Code, Cpu, Sparkles, X, GitBranch, Check, Circle, Maximize2, Minimize2 } from 'lucide-react';
+import ScrollReveal3D from './ScrollReveal3D';
 
 const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_!@#$%^&*";
 
@@ -48,7 +48,6 @@ const ScrambleText: React.FC<{ text: string, className?: string }> = ({ text, cl
 
 export const Hero: React.FC = () => {
   const { t } = useLanguage();
-  const { ref, isVisible } = useScrollReveal();
   const [activeTab, setActiveTab] = useState<'bio' | 'stack' | 'status' | 'mindset'>('bio');
   const [isMaximized, setIsMaximized] = useState(false);
 
@@ -125,11 +124,11 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="about" className="min-h-screen flex flex-col justify-center py-12 relative overflow-hidden bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
+    <section id="about" className="min-h-screen flex flex-col justify-center py-20 md:py-12 relative overflow-hidden bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-      <div className="container mx-auto px-6 md:px-12 relative z-10" ref={ref}>
+      <div className="container mx-auto px-4 md:px-12 relative z-10">
 
-        <div className={`relative max-w-6xl mx-auto border-x border-gray-200 dark:border-white/5 min-h-[500px] flex flex-col justify-center px-8 md:px-16 py-12 bg-white/50 dark:bg-zinc-900/30 backdrop-blur-sm group transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <ScrollReveal3D variant="zoomIn" className={`relative max-w-6xl mx-auto border-x border-gray-200 dark:border-white/5 min-h-[500px] flex flex-col justify-center px-4 md:px-16 py-12 bg-white/50 dark:bg-zinc-900/30 backdrop-blur-sm group transition-all duration-1000`}>
           {/* Decorative Corners */}
           <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-black dark:border-white transition-all duration-500 group-hover:w-8 group-hover:h-8" />
           <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-black dark:border-white transition-all duration-500 group-hover:w-8 group-hover:h-8" />
@@ -149,10 +148,10 @@ export const Hero: React.FC = () => {
 
           {/* Main Title with Scramble Effect */}
           <div className="mb-12 cursor-default">
-            <h1 className="text-6xl md:text-8xl font-bold font-mono tracking-tighter text-black dark:text-white mb-2">
+            <h1 className="text-5xl md:text-8xl font-bold font-mono tracking-tighter text-black dark:text-white mb-2 break-words">
               <ScrambleText text={t.hero.greeting} />
             </h1>
-            <h2 className="text-4xl md:text-6xl font-bold font-mono tracking-tighter text-gray-400 dark:text-gray-500">
+            <h2 className="text-3xl md:text-6xl font-bold font-mono tracking-tighter text-gray-400 dark:text-gray-500 break-words">
               <span className="text-gray-300 dark:text-gray-600 mr-4">&gt;</span>
               <ScrambleText text={t.hero.subtitle} />
             </h2>
@@ -162,9 +161,9 @@ export const Hero: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 border-t border-gray-200 dark:border-white/10 pt-12 font-mono">
 
             {/* Left Column: Stats */}
-            <div className="lg:col-span-4 flex flex-col justify-between gap-8">
+            <div className="lg:col-span-4 flex flex-col justify-between gap-8 order-2 lg:order-1">
               {t.hero.stats.map((stat, idx) => (
-                <div key={idx} className="group/stat">
+                <ScrollReveal3D key={idx} variant="slideLeft" delay={idx * 0.1} className="group/stat">
                   <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-2 flex items-center gap-2">
                     <span className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full group-hover/stat:bg-black dark:group-hover/stat:bg-white transition-colors"></span>
                     <ScrambleText text={stat.label} />
@@ -172,12 +171,12 @@ export const Hero: React.FC = () => {
                   <p className="text-lg text-black dark:text-gray-200 font-medium group-hover/stat:translate-x-2 transition-transform duration-300">
                     <ScrambleText text={stat.value} />
                   </p>
-                </div>
+                </ScrollReveal3D>
               ))}
             </div>
 
             {/* Right Column: Modern IDE Window */}
-            <div className={`lg:col-span-8 relative transition-all duration-500 ${isMaximized ? 'z-[100]' : 'z-10'}`}>
+            <div className={`lg:col-span-8 relative transition-all duration-500 order-1 lg:order-2 ${isMaximized ? 'z-[100]' : 'z-10'}`}>
 
               {/* Backdrop Overlay */}
               <div
@@ -191,7 +190,7 @@ export const Hero: React.FC = () => {
                   bg-white dark:bg-[#1e1e1e] rounded-xl shadow-xl overflow-hidden border border-gray-200/60 dark:border-white/10 flex flex-col 
                   transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)]
                   ${isMaximized
-                    ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[85vh] shadow-2xl scale-100'
+                    ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] h-[85vh] shadow-2xl scale-100'
                     : 'relative w-full h-full min-h-[280px] hover:-translate-y-1 hover:shadow-2xl'
                   }
                 `}
@@ -244,7 +243,8 @@ export const Hero: React.FC = () => {
                         <span className={`${activeTab === key ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`}>
                           {tabs[key].icon}
                         </span>
-                        <span>{tabs[key].filename}</span>
+                        <span className="hidden sm:inline">{tabs[key].filename}</span>
+                        <span className="sm:hidden">{key}</span>
                         {activeTab === key && (
                           <X size={10} className="ml-2 text-gray-400 hover:text-red-500 cursor-pointer rounded-full hover:bg-gray-100 dark:hover:bg-white/10 p-0.5 box-content" />
                         )}
@@ -256,18 +256,18 @@ export const Hero: React.FC = () => {
                 {/* Editor Area */}
                 <div className="flex flex-1 bg-white dark:bg-[#1e1e1e] font-mono text-sm transition-colors duration-300">
                   {/* Line Numbers */}
-                  <div className="w-12 bg-gray-50/50 dark:bg-[#1e1e1e] border-r border-gray-100 dark:border-white/5 flex flex-col items-center pr-3 pt-6 text-gray-300 dark:text-gray-600 select-none text-xs leading-relaxed">
+                  <div className="w-8 md:w-12 bg-gray-50/50 dark:bg-[#1e1e1e] border-r border-gray-100 dark:border-white/5 flex flex-col items-center pr-2 md:pr-3 pt-6 text-gray-300 dark:text-gray-600 select-none text-xs leading-relaxed">
                     {Array.from({ length: isMaximized ? 20 : 8 }).map((_, i) => (
                       <div key={i} className="h-6">{i + 1}</div>
                     ))}
                   </div>
 
                   {/* Code Content */}
-                  <div className="flex-1 p-6 overflow-auto">
-                    <div key={activeTab} className="animate-fade-in leading-relaxed text-base">
+                  <div className="flex-1 p-4 md:p-6 overflow-auto">
+                    <div key={activeTab} className="animate-fade-in leading-relaxed text-xs md:text-base">
                       {tabs[activeTab].content}
                       {/* Blinking Block Cursor */}
-                      <span className="inline-block w-2.5 h-5 bg-blue-400/50 ml-1 align-sub animate-blink"></span>
+                      <span className="inline-block w-2 md:w-2.5 h-4 md:h-5 bg-blue-400/50 ml-1 align-sub animate-blink"></span>
                     </div>
                   </div>
                 </div>
@@ -279,19 +279,19 @@ export const Hero: React.FC = () => {
                       <GitBranch size={10} />
                       <span className="font-bold">main</span>
                     </div>
-                    <div className="flex items-center gap-1.5 opacity-80">
+                    <div className="hidden sm:flex items-center gap-1.5 opacity-80">
                       <Circle size={8} className="fill-current text-white" />
                       <span>0 errors</span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-4 opacity-90">
-                    <div className="flex items-center gap-1">
+                    <div className="hidden sm:flex items-center gap-1">
                       <span>Ln {tabs[activeTab].lines}, Col 1</span>
                     </div>
-                    <div>UTF-8</div>
+                    <div className="hidden sm:block">UTF-8</div>
                     <div className="font-bold uppercase">{tabs[activeTab].language}</div>
-                    <div className="hover:bg-blue-700 px-1.5 py-0.5 rounded cursor-pointer transition-colors">
+                    <div className="hidden sm:flex hover:bg-blue-700 px-1.5 py-0.5 rounded cursor-pointer transition-colors">
                       <Check size={10} /> Prettier
                     </div>
                   </div>
@@ -304,7 +304,7 @@ export const Hero: React.FC = () => {
             </div>
 
           </div>
-        </div>
+        </ScrollReveal3D>
       </div>
 
       <style>{`

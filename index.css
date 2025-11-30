@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Fluid typography: 1rem will scale from 14px at 320px width to 18px at 1920px width */
+  font-size: clamp(14px, 1vw + 10px, 18px);
+}
+
+body {
+  /* Ensure smooth scaling */
+  transition: font-size 0.2s ease-out;
+}
+
+/* Adjust container max-widths to be more fluid if needed, 
+   but Tailwind's container is usually good. 
+   We can add some custom fluid spacing classes if requested. */
