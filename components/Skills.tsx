@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ScrollReveal } from './ScrollReveal';
+import ScrollReveal3D from './ScrollReveal3D';
 import { useLanguage } from '../context/LanguageContext';
 import TextReveal from './TextReveal';
 import {
@@ -258,10 +258,10 @@ const IDEView: React.FC = () => {
   const categories = ['Backend', 'Frontend', 'DevOps', 'Core'];
 
   return (
-    <div className="w-full max-w-5xl mx-auto h-[600px] bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-[#333] dark:border-white/10 font-mono text-sm">
+    <div className="w-full max-w-5xl mx-auto h-[600px] md:h-[600px] bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-[#333] dark:border-white/10 font-mono text-sm">
       {/* Sidebar */}
-      <div className="w-full md:w-64 bg-[#252526] flex flex-col border-r border-[#333]">
-        <div className="p-3 text-gray-400 text-xs uppercase tracking-wider font-bold">Explorer</div>
+      <div className="w-full md:w-64 bg-[#252526] flex flex-col border-b md:border-b-0 md:border-r border-[#333] h-[150px] md:h-auto">
+        <div className="p-3 text-gray-400 text-xs uppercase tracking-wider font-bold sticky top-0 bg-[#252526] z-10">Explorer</div>
         <div className="flex-1 overflow-y-auto">
           {categories.map(cat => (
             <div key={cat} className="mb-2">
@@ -290,9 +290,9 @@ const IDEView: React.FC = () => {
       </div>
 
       {/* Editor Area */}
-      <div className="flex-1 flex flex-col bg-[#1e1e1e]">
+      <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden">
         {/* Tabs */}
-        <div className="flex bg-[#252526] overflow-x-auto">
+        <div className="flex bg-[#252526] overflow-x-auto scrollbar-hide">
           <div className="flex items-center gap-2 px-4 py-2 bg-[#1e1e1e] border-t-2 border-blue-400 text-white min-w-[120px]">
             <FileJson size={14} className={activeNode.color} />
             <span>{activeNode.id}.json</span>
@@ -301,20 +301,20 @@ const IDEView: React.FC = () => {
         </div>
 
         {/* Breadcrumbs */}
-        <div className="px-4 py-1 text-gray-500 text-xs flex items-center gap-1 border-b border-[#333]">
+        <div className="px-4 py-1 text-gray-500 text-xs flex items-center gap-1 border-b border-[#333] overflow-x-auto whitespace-nowrap">
           <span>src</span> <span>&gt;</span> <span>{activeNode.category}</span> <span>&gt;</span> <span>{activeNode.id}.json</span>
         </div>
 
         {/* Code Content */}
-        <div className="flex-1 p-6 overflow-auto">
+        <div className="flex-1 p-4 md:p-6 overflow-auto">
           <div className="flex gap-4">
             {/* Line Numbers */}
-            <div className="flex flex-col text-right text-gray-600 select-none pr-4 border-r border-[#333]">
+            <div className="flex flex-col text-right text-gray-600 select-none pr-4 border-r border-[#333] hidden sm:flex">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <span key={n}>{n}</span>)}
             </div>
 
             {/* Syntax Highlighting (Simulated) */}
-            <pre className="font-mono text-gray-300 leading-relaxed">
+            <pre className="font-mono text-gray-300 leading-relaxed text-xs md:text-sm">
               <span className="text-yellow-400">{`{`}</span>
               {'\n'}
               <span className="text-blue-400">  "id"</span>: <span className="text-orange-400">"{activeNode.id}"</span>,
@@ -331,16 +331,16 @@ const IDEView: React.FC = () => {
         </div>
 
         {/* Status Bar */}
-        <div className="bg-blue-600 text-white text-xs px-3 py-1 flex justify-between items-center">
+        <div className="bg-blue-600 text-white text-xs px-3 py-1 flex justify-between items-center shrink-0">
           <div className="flex gap-3">
             <span>main*</span>
-            <span>0 errors</span>
+            <span className="hidden sm:inline">0 errors</span>
           </div>
           <div className="flex gap-3">
-            <span>Ln 6, Col 12</span>
+            <span className="hidden sm:inline">Ln 6, Col 12</span>
             <span>UTF-8</span>
             <span>JSON</span>
-            <span>Prettier</span>
+            <span className="hidden sm:inline">Prettier</span>
           </div>
         </div>
       </div>
@@ -374,7 +374,7 @@ export const Skills: React.FC = () => {
     <section id="skills" className="min-h-screen py-24 relative bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
 
       <div className="container mx-auto px-6 z-10 w-full">
-        <ScrollReveal>
+        <ScrollReveal3D variant="fadeUp">
           <div className="flex flex-col items-center justify-center mb-12 text-center">
             <h2 className="text-5xl md:text-7xl font-bold tracking-tight font-display text-black dark:text-white mb-4">
               <TextReveal text={t.skills_section.title} /><span className="text-brand-accent dark:text-blue-500">.</span>
@@ -405,7 +405,7 @@ export const Skills: React.FC = () => {
               ))}
             </div>
           </div>
-        </ScrollReveal>
+        </ScrollReveal3D>
 
         {/* View Rendering */}
         <div className={`
@@ -420,7 +420,7 @@ export const Skills: React.FC = () => {
         <div className="md:hidden mt-12 grid grid-cols-2 gap-4">
           {/* Only show this generic grid if we are in constellation mode on mobile */}
           {viewMode === 'constellation' && nodes.filter(n => n.id !== 'core').map((node, index) => (
-            <ScrollReveal key={node.id} delay={index * 50}>
+            <ScrollReveal3D key={node.id} variant="zoomIn" delay={index * 0.05}>
               <div className={`relative p-4 rounded-xl border border-white/50 bg-white/60 backdrop-blur-sm flex flex-col items-center gap-3 text-center`}>
                 <div className={`relative p-3 rounded-full ${node.bg} ${node.color} ring-1 ${node.ring}`}>
                   {node.icon}
@@ -429,7 +429,7 @@ export const Skills: React.FC = () => {
                   <TextReveal text={t.skills_section.skills[node.id]?.label || ''} />
                 </span>
               </div>
-            </ScrollReveal>
+            </ScrollReveal3D>
           ))}
         </div>
 

@@ -1,17 +1,26 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Project } from '../types';
 import { AnimatePresence, motion } from 'framer-motion';
 import VSCodeViewer from './VSCodeViewer';
 import { useLanguage } from '../context/LanguageContext';
 import TextReveal from './TextReveal';
+import ScrollReveal3D from './ScrollReveal3D';
 
 const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile) return;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
     const x = (e.clientX - left - width / 2) / 30; // Increased sensitivity slightly
     const y = (e.clientY - top - height / 2) / 30;
@@ -53,18 +62,18 @@ export const Projects: React.FC = () => {
     <section id="projects" className="py-24 bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
       <div className="container mx-auto px-6 md:px-12">
 
-        <div className="flex justify-center mb-16 reveal">
+        <ScrollReveal3D variant="fadeUp" className="flex justify-center mb-16">
           <h2 className="text-5xl md:text-6xl font-bold tracking-tight font-display dark:text-white">
             <TextReveal text={t.titles.projects} /><span className="text-brand-accent dark:text-blue-500">.</span>
           </h2>
-        </div>
+        </ScrollReveal3D>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {t.projects.map((project, index) => (
-            <div
+            <ScrollReveal3D
               key={project.id}
-              className="reveal"
-              style={{ transitionDelay: `${index * 100}ms` }}
+              variant="fadeUp"
+              delay={index * 0.1}
             >
               <TiltCard className="bg-[#E5E5E5] dark:bg-[#111] rounded-[2.5rem] p-10 relative min-h-[480px] flex flex-col justify-between group hover:shadow-2xl hover:shadow-gray-300/50 dark:hover:shadow-blue-900/10 border border-transparent dark:border-white/10">
 
@@ -101,7 +110,7 @@ export const Projects: React.FC = () => {
                 </div>
 
               </TiltCard>
-            </div>
+            </ScrollReveal3D>
           ))}
         </div>
 

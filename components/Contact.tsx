@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import TextReveal from './TextReveal';
+import ScrollReveal3D from './ScrollReveal3D';
 
 export const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -8,7 +9,7 @@ export const Contact: React.FC = () => {
   return (
     <footer className="py-12 bg-white dark:bg-black text-center transition-colors duration-500">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col items-center gap-6">
+        <ScrollReveal3D variant="zoomIn" className="flex flex-col items-center gap-6">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white font-display">
             <TextReveal text={t.titles.ready} />
           </h2>
@@ -21,7 +22,7 @@ export const Contact: React.FC = () => {
           <p className="text-gray-400 dark:text-gray-500 text-sm mt-8">
             <TextReveal text={t.titles.footer} />
           </p>
-        </div>
+        </ScrollReveal3D>
       </div>
     </footer>
   );
