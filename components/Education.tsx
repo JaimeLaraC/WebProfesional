@@ -11,8 +11,8 @@ export const Education: React.FC = () => {
     <section id="education" className="py-24 bg-[#E5E5E5] dark:bg-[#0e0e0e] transition-colors duration-500">
       <div className="container mx-auto px-6 md:px-12">
 
-        <ScrollReveal3D variant="fadeUp" className="flex justify-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold tracking-tight font-display dark:text-white">
+        <ScrollReveal3D variant="fadeUp" className="flex justify-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight font-display dark:text-white">
             <TextReveal text={t.titles.education} /><span className="text-brand-accent dark:text-blue-500">.</span>
           </h2>
         </ScrollReveal3D>

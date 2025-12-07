@@ -44,30 +44,30 @@ const EducationGit: React.FC = () => {
             </div>
 
             {/* Main Content Area */}
-            <div className="bg-[#1e1e1e] border border-[#333] rounded-b-xl shadow-2xl overflow-hidden relative min-h-[500px]">
+            <div className="bg-[#1e1e1e] border border-[#333] rounded-b-xl shadow-2xl overflow-hidden relative min-h-[400px] md:min-h-[500px]">
 
                 {/* Background Grid Lines for Commit Graph */}
-                <div className="absolute top-0 left-8 bottom-0 w-px bg-[#333] z-0"></div>
+                <div className="absolute top-0 left-6 md:left-8 bottom-0 w-px bg-[#333] z-0"></div>
 
                 {/* Header Row */}
-                <div className="flex items-center px-4 py-2 bg-[#252526] border-b border-[#333] text-gray-500 text-xs font-bold uppercase tracking-wider sticky top-0 z-20">
-                    <div className="w-16 text-center">Graph</div>
-                    <div className="w-24">Hash</div>
-                    <div className="flex-1">Message / Degree</div>
-                    <div className="w-40 hidden md:block">Author / School</div>
-                    <div className="w-24 text-right">Date</div>
+                <div className="flex items-center px-2 md:px-4 py-2 bg-[#252526] border-b border-[#333] text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-wider sticky top-0 z-20">
+                    <div className="w-10 md:w-16 text-center shrink-0">Graph</div>
+                    <div className="w-16 md:w-24 hidden sm:block">Hash</div>
+                    <div className="flex-1 min-w-0">Degree</div>
+                    <div className="w-40 hidden md:block">School</div>
+                    <div className="w-16 md:w-24 text-right shrink-0">Date</div>
                 </div>
 
                 {/* HEAD Pointer */}
-                <div className="relative z-10 flex items-center px-4 py-3 hover:bg-[#2a2d2e] transition-colors group">
-                    <div className="w-16 flex justify-center items-center relative">
-                        <div className="w-3 h-3 rounded-full border-2 border-blue-400 bg-[#1e1e1e] z-10"></div>
+                <div className="relative z-10 flex items-center px-2 md:px-4 py-2 md:py-3 hover:bg-[#2a2d2e] transition-colors group">
+                    <div className="w-10 md:w-16 flex justify-center items-center relative shrink-0">
+                        <div className="w-2.5 md:w-3 h-2.5 md:h-3 rounded-full border-2 border-blue-400 bg-[#1e1e1e] z-10"></div>
                     </div>
-                    <div className="flex-1 flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold flex items-center gap-1">
-                            <GitBranch size={10} /> HEAD
+                    <div className="flex-1 flex items-center gap-1 md:gap-2 flex-wrap">
+                        <span className="px-1.5 md:px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[9px] md:text-[10px] font-bold flex items-center gap-1">
+                            <GitBranch size={8} className="md:w-[10px] md:h-[10px]" /> HEAD
                         </span>
-                        <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-400 border border-green-500/30 text-[10px] font-bold">
+                        <span className="px-1.5 md:px-2 py-0.5 rounded bg-green-500/20 text-green-400 border border-green-500/30 text-[9px] md:text-[10px] font-bold">
                             main
                         </span>
                     </div>
@@ -88,55 +88,55 @@ const EducationGit: React.FC = () => {
                         >
                             {/* Row Container */}
                             <div
-                                className={`flex items-center px-4 py-3 border-b border-[#2a2d2e] transition-colors cursor-pointer group ${hoveredIndex === index ? 'bg-[#2a2d2e]' : ''}`}
+                                className={`flex items-center px-2 md:px-4 py-2 md:py-3 border-b border-[#2a2d2e] transition-colors cursor-pointer group ${hoveredIndex === index ? 'bg-[#2a2d2e]' : ''}`}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                             >
                                 {/* Graph Column */}
-                                <div className="w-16 flex justify-center items-center relative shrink-0">
+                                <div className="w-10 md:w-16 flex justify-center items-center relative shrink-0">
                                     {/* Vertical Line Segment */}
                                     <div className="absolute top-[-50%] bottom-[-50%] w-0.5 bg-gray-600 group-hover:bg-gray-500 transition-colors"></div>
 
                                     {/* Commit Dot */}
                                     <div className={`
-                    w-3 h-3 rounded-full border-2 z-10 transition-transform duration-300
-                    ${isMerge ? 'bg-purple-500 border-purple-300 w-4 h-4' : 'bg-[#1e1e1e] border-gray-400'}
+                    w-2.5 md:w-3 h-2.5 md:h-3 rounded-full border-2 z-10 transition-transform duration-300
+                    ${isMerge ? 'bg-purple-500 border-purple-300 w-3 md:w-4 h-3 md:h-4' : 'bg-[#1e1e1e] border-gray-400'}
                     ${hoveredIndex === index ? 'scale-125 border-white bg-blue-500' : ''}
                   `}></div>
 
                                     {/* Merge curve simulation for degrees */}
                                     {isMerge && (
-                                        <svg className="absolute left-[50%] top-[50%] w-8 h-8 pointer-events-none" style={{ transform: 'translate(-12px, -4px)' }}>
+                                        <svg className="absolute left-[50%] top-[50%] w-6 md:w-8 h-6 md:h-8 pointer-events-none hidden sm:block" style={{ transform: 'translate(-12px, -4px)' }}>
                                             <path d="M 6 0 Q 14 10 24 10" fill="none" stroke="#a855f7" strokeWidth="2" />
                                         </svg>
                                     )}
                                 </div>
 
                                 {/* Hash */}
-                                <div className="w-24 text-blue-400 shrink-0 opacity-80 group-hover:opacity-100 group-hover:underline">
+                                <div className="w-16 md:w-24 text-blue-400 shrink-0 opacity-80 group-hover:opacity-100 group-hover:underline text-xs hidden sm:block">
                                     {hash}
                                 </div>
 
                                 {/* Message */}
-                                <div className="flex-1 min-w-0 pr-4">
-                                    <div className="flex items-center gap-2">
-                                        <span className={`font-medium truncate ${isMerge ? 'text-purple-300 text-base' : 'text-gray-300'}`}>
+                                <div className="flex-1 min-w-0 pr-2 md:pr-4">
+                                    <div className="flex items-center gap-1 md:gap-2 flex-wrap">
+                                        <span className={`font-medium text-xs md:text-sm truncate max-w-[140px] sm:max-w-none ${isMerge ? 'text-purple-300 md:text-base' : 'text-gray-300'}`}>
                                             <TextReveal text={edu.degree} />
                                         </span>
-                                        {isMerge && <span className="px-1.5 py-0.5 rounded border border-purple-500/30 bg-purple-500/10 text-purple-400 text-[10px] font-bold">MERGE</span>}
-                                        {edu.type === 'certification' && <Tag size={12} className="text-gray-500" />}
+                                        {isMerge && <span className="px-1 md:px-1.5 py-0.5 rounded border border-purple-500/30 bg-purple-500/10 text-purple-400 text-[8px] md:text-[10px] font-bold hidden sm:inline">MERGE</span>}
+                                        {edu.type === 'certification' && <Tag size={10} className="text-gray-500 hidden sm:block" />}
                                     </div>
                                 </div>
 
                                 {/* Author */}
                                 <div className="w-40 hidden md:flex items-center gap-2 text-gray-400 shrink-0">
                                     <User size={12} />
-                                    <span className="truncate"><TextReveal text={edu.school} /></span>
+                                    <span className="truncate text-xs"><TextReveal text={edu.school} /></span>
                                 </div>
 
                                 {/* Date */}
-                                <div className="w-24 text-right text-gray-500 shrink-0 flex items-center justify-end gap-2">
-                                    <Calendar size={12} />
+                                <div className="w-16 md:w-24 text-right text-gray-500 shrink-0 flex items-center justify-end gap-1 md:gap-2 text-[10px] md:text-xs">
+                                    <Calendar size={10} className="md:w-3 md:h-3" />
                                     <span><TextReveal text={edu.year || ''} /></span>
                                 </div>
                             </div>

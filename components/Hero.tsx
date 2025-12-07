@@ -124,11 +124,11 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="about" className="min-h-screen flex flex-col justify-center py-20 md:py-12 relative overflow-hidden bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
+    <section id="about" className="min-h-screen flex flex-col justify-center py-16 md:py-12 relative overflow-hidden bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-      <div className="container mx-auto px-4 md:px-12 relative z-10">
+      <div className="container mx-auto px-3 md:px-12 relative z-10">
 
-        <ScrollReveal3D variant="zoomIn" className={`relative max-w-6xl mx-auto border-x border-gray-200 dark:border-white/5 min-h-[500px] flex flex-col justify-center px-4 md:px-16 py-12 bg-white/50 dark:bg-zinc-900/30 backdrop-blur-sm group transition-all duration-1000`}>
+        <ScrollReveal3D variant="zoomIn" className={`relative max-w-6xl mx-auto border-x border-gray-200 dark:border-white/5 min-h-[450px] md:min-h-[500px] flex flex-col justify-center px-3 md:px-16 py-8 md:py-12 bg-white/50 dark:bg-zinc-900/30 backdrop-blur-sm group transition-all duration-1000`}>
           {/* Decorative Corners */}
           <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-black dark:border-white transition-all duration-500 group-hover:w-8 group-hover:h-8" />
           <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-black dark:border-white transition-all duration-500 group-hover:w-8 group-hover:h-8" />
@@ -147,18 +147,18 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Main Title with Scramble Effect */}
-          <div className="mb-12 cursor-default">
-            <h1 className="text-5xl md:text-8xl font-bold font-mono tracking-tighter text-black dark:text-white mb-2 break-words">
+          <div className="mb-8 md:mb-12 cursor-default">
+            <h1 className="text-3xl sm:text-5xl md:text-8xl font-bold font-mono tracking-tighter text-black dark:text-white mb-2 break-words">
               <ScrambleText text={t.hero.greeting} />
             </h1>
-            <h2 className="text-3xl md:text-6xl font-bold font-mono tracking-tighter text-gray-400 dark:text-gray-500 break-words">
-              <span className="text-gray-300 dark:text-gray-600 mr-4">&gt;</span>
+            <h2 className="text-xl sm:text-3xl md:text-6xl font-bold font-mono tracking-tighter text-gray-400 dark:text-gray-500 break-words">
+              <span className="text-gray-300 dark:text-gray-600 mr-2 md:mr-4">&gt;</span>
               <ScrambleText text={t.hero.subtitle} />
             </h2>
           </div>
 
           {/* Grid Layout for Stats & Interactive Console */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 border-t border-gray-200 dark:border-white/10 pt-12 font-mono">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-12 border-t border-gray-200 dark:border-white/10 pt-6 md:pt-12 font-mono">
 
             {/* Left Column: Stats */}
             <div className="lg:col-span-4 flex flex-col justify-between gap-8 order-2 lg:order-1">

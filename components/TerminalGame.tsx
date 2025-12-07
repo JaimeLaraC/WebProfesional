@@ -133,8 +133,15 @@ const SnakeGame: React.FC<{ onExit: () => void, theme: ThemeConfig }> = ({ onExi
   const [dir, setDir] = useState<[number, number]>([1, 0]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const gridW = 30;
-  const gridH = 15;
+  const gridW = 20; // Reduced for mobile
+  const gridH = 12; // Reduced for mobile
+
+  const changeDirection = (newDir: [number, number]) => {
+    // Prevent reversing direction
+    if (newDir[0] !== -dir[0] || newDir[1] !== -dir[1]) {
+      setDir(newDir);
+    }
+  };
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -185,7 +192,7 @@ const SnakeGame: React.FC<{ onExit: () => void, theme: ThemeConfig }> = ({ onExi
         }
         return newSnake;
       });
-    }, 100);
+    }, 120);
     return () => clearInterval(move);
   }, [dir, food, gameOver]);
 
@@ -208,10 +215,39 @@ const SnakeGame: React.FC<{ onExit: () => void, theme: ThemeConfig }> = ({ onExi
           </div>
         ))}
       </div>
-      <div className="mt-2 flex gap-4">
+
+      {/* Mobile Touch Controls */}
+      <div className="mt-4 md:hidden grid grid-cols-3 gap-2 w-32">
+        <div></div>
+        <button
+          onClick={() => !gameOver && changeDirection([0, -1])}
+          className={`p-3 rounded ${theme.bg} border border-current active:scale-95 transition-transform`}
+        >▲</button>
+        <div></div>
+        <button
+          onClick={() => !gameOver && changeDirection([-1, 0])}
+          className={`p-3 rounded ${theme.bg} border border-current active:scale-95 transition-transform`}
+        >◀</button>
+        <button
+          onClick={onExit}
+          className={`p-2 rounded text-xs ${theme.bg} border border-current active:scale-95 transition-transform`}
+        >ESC</button>
+        <button
+          onClick={() => !gameOver && changeDirection([1, 0])}
+          className={`p-3 rounded ${theme.bg} border border-current active:scale-95 transition-transform`}
+        >▶</button>
+        <div></div>
+        <button
+          onClick={() => !gameOver && changeDirection([0, 1])}
+          className={`p-3 rounded ${theme.bg} border border-current active:scale-95 transition-transform`}
+        >▼</button>
+        <div></div>
+      </div>
+
+      <div className="mt-2 flex flex-col md:flex-row gap-2 md:gap-4 items-center text-center">
         <span>SCORE: {score}</span>
-        {gameOver && <span className="text-red-500 font-bold animate-pulse">GAME OVER - PRESS ENTER</span>}
-        {!gameOver && <span className="text-gray-500 text-xs">[ARROWS] Move • [ESC] Exit</span>}
+        {gameOver && <span className="text-red-500 font-bold animate-pulse">GAME OVER - TAP ESC</span>}
+        {!gameOver && <span className="text-gray-500 text-xs hidden md:block">[ARROWS] Move • [ESC] Exit</span>}
       </div>
     </div>
   );
