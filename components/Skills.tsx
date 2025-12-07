@@ -249,6 +249,7 @@ const ConstellationView: React.FC = () => {
 // --- 2. IDE VIEW COMPONENT ---
 const IDEView: React.FC = () => {
   const [openFile, setOpenFile] = useState<string>('python');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { t } = useLanguage();
 
   const activeNode = nodes.find(n => n.id === openFile) || nodes[0];
@@ -258,89 +259,103 @@ const IDEView: React.FC = () => {
   const categories = ['Backend', 'Frontend', 'DevOps', 'Core'];
 
   return (
-    <div className="w-full max-w-5xl mx-auto h-[600px] md:h-[600px] bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-[#333] dark:border-white/10 font-mono text-sm">
-      {/* Sidebar */}
-      <div className="w-full md:w-64 bg-[#252526] flex flex-col border-b md:border-b-0 md:border-r border-[#333] h-[150px] md:h-auto">
-        <div className="p-3 text-gray-400 text-xs uppercase tracking-wider font-bold sticky top-0 bg-[#252526] z-10">Explorer</div>
-        <div className="flex-1 overflow-y-auto">
-          {categories.map(cat => (
-            <div key={cat} className="mb-2">
-              <div className="flex items-center px-2 py-1 text-gray-300 hover:bg-[#2a2d2e] cursor-pointer gap-1">
-                <ChevronRight size={14} />
-                <Folder size={14} className="text-blue-400" />
-                <span className="font-bold">{cat}</span>
-              </div>
-              <div className="ml-4 border-l border-[#444]">
-                {nodes.filter(n => n.category === cat).map(node => (
-                  <div
-                    key={node.id}
-                    onClick={() => setOpenFile(node.id)}
-                    className={`flex items-center px-3 py-1 cursor-pointer gap-2 transition-colors
-                       ${openFile === node.id ? 'bg-[#37373d] text-white' : 'text-gray-400 hover:text-white hover:bg-[#2a2d2e]'}
-                     `}
-                  >
-                    <FileJson size={14} className={node.color} />
-                    <span>{node.id}.json</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="w-full max-w-5xl mx-auto h-[400px] md:h-[600px] bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden flex flex-col border border-[#333] dark:border-white/10 font-mono text-sm">
+      {/* Mobile sidebar toggle */}
+      <div className="md:hidden flex items-center justify-between bg-[#252526] px-3 py-2 border-b border-[#333]">
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="flex items-center gap-2 text-gray-300 text-xs"
+        >
+          <ChevronRight size={14} className={`transition-transform ${isSidebarOpen ? 'rotate-90' : ''}`} />
+          <span>Explorer</span>
+        </button>
+        <span className="text-gray-500 text-xs">{activeNode.id}.json</span>
       </div>
 
-      {/* Editor Area */}
-      <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden">
-        {/* Tabs */}
-        <div className="flex bg-[#252526] overflow-x-auto scrollbar-hide">
-          <div className="flex items-center gap-2 px-4 py-2 bg-[#1e1e1e] border-t-2 border-blue-400 text-white min-w-[120px]">
-            <FileJson size={14} className={activeNode.color} />
-            <span>{activeNode.id}.json</span>
-            <X size={14} className="ml-auto text-gray-500 hover:text-white cursor-pointer" />
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        {/* Sidebar */}
+        <div className={`${isSidebarOpen ? 'h-[150px]' : 'h-0'} md:h-auto md:w-64 bg-[#252526] flex flex-col border-b md:border-b-0 md:border-r border-[#333] overflow-hidden transition-all duration-300`}>
+          <div className="p-3 text-gray-400 text-xs uppercase tracking-wider font-bold sticky top-0 bg-[#252526] z-10 hidden md:block">Explorer</div>
+          <div className="flex-1 overflow-y-auto">
+            {categories.map(cat => (
+              <div key={cat} className="mb-2">
+                <div className="flex items-center px-2 py-1 text-gray-300 hover:bg-[#2a2d2e] cursor-pointer gap-1">
+                  <ChevronRight size={14} />
+                  <Folder size={14} className="text-blue-400" />
+                  <span className="font-bold">{cat}</span>
+                </div>
+                <div className="ml-4 border-l border-[#444]">
+                  {nodes.filter(n => n.category === cat).map(node => (
+                    <div
+                      key={node.id}
+                      onClick={() => { setOpenFile(node.id); setIsSidebarOpen(false); }}
+                      className={`flex items-center px-3 py-1 cursor-pointer gap-2 transition-colors
+                         ${openFile === node.id ? 'bg-[#37373d] text-white' : 'text-gray-400 hover:text-white hover:bg-[#2a2d2e]'}
+                       `}
+                    >
+                      <FileJson size={14} className={node.color} />
+                      <span>{node.id}.json</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Breadcrumbs */}
-        <div className="px-4 py-1 text-gray-500 text-xs flex items-center gap-1 border-b border-[#333] overflow-x-auto whitespace-nowrap">
-          <span>src</span> <span>&gt;</span> <span>{activeNode.category}</span> <span>&gt;</span> <span>{activeNode.id}.json</span>
-        </div>
-
-        {/* Code Content */}
-        <div className="flex-1 p-4 md:p-6 overflow-auto">
-          <div className="flex gap-4">
-            {/* Line Numbers */}
-            <div className="flex flex-col text-right text-gray-600 select-none pr-4 border-r border-[#333] hidden sm:flex">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <span key={n}>{n}</span>)}
+        {/* Editor Area */}
+        <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden">
+          {/* Tabs */}
+          <div className="flex bg-[#252526] overflow-x-auto scrollbar-hide">
+            <div className="flex items-center gap-2 px-4 py-2 bg-[#1e1e1e] border-t-2 border-blue-400 text-white min-w-[120px]">
+              <FileJson size={14} className={activeNode.color} />
+              <span>{activeNode.id}.json</span>
+              <X size={14} className="ml-auto text-gray-500 hover:text-white cursor-pointer" />
             </div>
-
-            {/* Syntax Highlighting (Simulated) */}
-            <pre className="font-mono text-gray-300 leading-relaxed text-xs md:text-sm">
-              <span className="text-yellow-400">{`{`}</span>
-              {'\n'}
-              <span className="text-blue-400">  "id"</span>: <span className="text-orange-400">"{activeNode.id}"</span>,
-              {'\n'}
-              <span className="text-blue-400">  "name"</span>: <span className="text-green-400">"<TextReveal text={activeNodeTranslation?.label || ''} />"</span>,
-              {'\n'}
-              <span className="text-blue-400">  "description"</span>: <span className="text-orange-400">"<TextReveal text={activeNodeTranslation?.description || ''} />"</span>,
-              {'\n'}
-              <span className="text-blue-400">  "config"</span>: <span className="text-yellow-400">{activeNode.codeSnippet || '"standard config"'}</span>,
-              {'\n'}
-              <span className="text-yellow-400">{`}`}</span>
-            </pre>
           </div>
-        </div>
 
-        {/* Status Bar */}
-        <div className="bg-blue-600 text-white text-xs px-3 py-1 flex justify-between items-center shrink-0">
-          <div className="flex gap-3">
-            <span>main*</span>
-            <span className="hidden sm:inline">0 errors</span>
+          {/* Breadcrumbs */}
+          <div className="px-4 py-1 text-gray-500 text-xs flex items-center gap-1 border-b border-[#333] overflow-x-auto whitespace-nowrap">
+            <span>src</span> <span>&gt;</span> <span>{activeNode.category}</span> <span>&gt;</span> <span>{activeNode.id}.json</span>
           </div>
-          <div className="flex gap-3">
-            <span className="hidden sm:inline">Ln 6, Col 12</span>
-            <span>UTF-8</span>
-            <span>JSON</span>
-            <span className="hidden sm:inline">Prettier</span>
+
+          {/* Code Content */}
+          <div className="flex-1 p-4 md:p-6 overflow-auto">
+            <div className="flex gap-4">
+              {/* Line Numbers */}
+              <div className="flex flex-col text-right text-gray-600 select-none pr-4 border-r border-[#333] hidden sm:flex">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <span key={n}>{n}</span>)}
+              </div>
+
+              {/* Syntax Highlighting (Simulated) */}
+              <pre className="font-mono text-gray-300 leading-relaxed text-xs md:text-sm">
+                <span className="text-yellow-400">{`{`}</span>
+                {'\n'}
+                <span className="text-blue-400">  "id"</span>: <span className="text-orange-400">"{activeNode.id}"</span>,
+                {'\n'}
+                <span className="text-blue-400">  "name"</span>: <span className="text-green-400">"<TextReveal text={activeNodeTranslation?.label || ''} />"</span>,
+                {'\n'}
+                <span className="text-blue-400">  "description"</span>: <span className="text-orange-400">"<TextReveal text={activeNodeTranslation?.description || ''} />"</span>,
+                {'\n'}
+                <span className="text-blue-400">  "config"</span>: <span className="text-yellow-400">{activeNode.codeSnippet || '"standard config"'}</span>,
+                {'\n'}
+                <span className="text-yellow-400">{`}`}</span>
+              </pre>
+            </div>
+          </div>
+
+          {/* Status Bar */}
+          <div className="bg-blue-600 text-white text-xs px-3 py-1 flex justify-between items-center shrink-0">
+            <div className="flex gap-3">
+              <span>main*</span>
+              <span className="hidden sm:inline">0 errors</span>
+            </div>
+            <div className="flex gap-3">
+              <span className="hidden sm:inline">Ln 6, Col 12</span>
+              <span>UTF-8</span>
+              <span>JSON</span>
+              <span className="hidden sm:inline">Prettier</span>
+            </div>
           </div>
         </div>
       </div>
@@ -375,11 +390,11 @@ export const Skills: React.FC = () => {
 
       <div className="container mx-auto px-6 z-10 w-full">
         <ScrollReveal3D variant="fadeUp">
-          <div className="flex flex-col items-center justify-center mb-12 text-center">
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight font-display text-black dark:text-white mb-4">
+          <div className="flex flex-col items-center justify-center mb-8 md:mb-12 text-center">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight font-display text-black dark:text-white mb-4">
               <TextReveal text={t.skills_section.title} /><span className="text-brand-accent dark:text-blue-500">.</span>
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-lg">
+            <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 mb-6 md:mb-8 max-w-lg px-2">
               <TextReveal text={t.skills_section.subtitle} />
             </p>
 
@@ -409,7 +424,7 @@ export const Skills: React.FC = () => {
 
         {/* View Rendering */}
         <div className={`
-            transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] transform min-h-[600px]
+            transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] transform min-h-[450px] md:min-h-[600px]
             ${isTransitioning ? 'opacity-0 scale-95 blur-md translate-y-4' : 'opacity-100 scale-100 blur-0 translate-y-0'}
         `}>
           {viewMode === 'constellation' && <ConstellationView />}

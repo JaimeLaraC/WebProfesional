@@ -15,7 +15,8 @@ import {
     ChevronDown,
     Blocks,
     Copy,
-    Check
+    Check,
+    Menu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -38,9 +39,10 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
 
     // Layout State
     const [activeSidebarView, setActiveSidebarView] = useState<SidebarView>('explorer');
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Start closed
     const [isTerminalOpen, setIsTerminalOpen] = useState(false);
     const [folderCollapsed, setFolderCollapsed] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Terminal State
     const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
@@ -48,6 +50,20 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
 
     // Other
     const [copied, setCopied] = useState(false);
+
+    // Mobile detection
+    useEffect(() => {
+        const checkMobile = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            if (!mobile && !isSidebarOpen) {
+                setIsSidebarOpen(true); // Open sidebar on desktop
+            }
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Derived
     const activeProject = openProjects.find(p => p.id === activeProjectId) || initialProject;
@@ -241,8 +257,8 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
         <div className="w-full h-full flex flex-col font-sans text-sm bg-[#1e1e1e] text-[#cccccc] overflow-hidden rounded-xl shadow-2xl border border-[#333] relative">
 
             {/* Title Bar (Mac Style) */}
-            <div className="h-9 bg-[#323233] flex items-center justify-between px-4 select-none shrink-0 border-b border-[#111]">
-                <div className="flex gap-2">
+            <div className="h-9 bg-[#323233] flex items-center justify-between px-2 md:px-4 select-none shrink-0 border-b border-[#111]">
+                <div className="flex gap-2 items-center">
                     {onClose && (
                         <div
                             onClick={onClose}
@@ -253,11 +269,20 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
                     )}
                     <div className="w-3 h-3 rounded-full bg-[#ffbd2e] hover:bg-[#ffad1e] transition-colors cursor-pointer"></div>
                     <div className="w-3 h-3 rounded-full bg-[#27c93f] hover:bg-[#22b336] transition-colors cursor-pointer"></div>
+
+                    {/* Mobile sidebar toggle */}
+                    <button
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                        className="md:hidden ml-2 p-1 rounded hover:bg-[#4a4a4a] text-gray-400 hover:text-white transition-colors"
+                    >
+                        <Menu size={16} />
+                    </button>
                 </div>
-                <div className="text-xs text-[#999999] font-medium flex items-center gap-2">
-                    <span>{activeProject.fileName} — jaime-portfolio</span>
+                <div className="text-[10px] md:text-xs text-[#999999] font-medium flex items-center gap-2 truncate max-w-[50%]">
+                    <span className="truncate">{activeProject.fileName}</span>
+                    <span className="hidden sm:inline">— jaime-portfolio</span>
                 </div>
-                <div className="w-14"></div>
+                <div className="w-6 md:w-14"></div>
             </div>
 
             <div className="flex-1 flex flex-col md:flex-row min-h-0">
@@ -286,13 +311,26 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
                 </div>
 
                 {/* Sidebar */}
-                <div className={`bg-[#252526] flex flex-col transition-all duration-300 border-b md:border-b-0 md:border-r border-[#111] shrink-0 ${isSidebarOpen ? 'h-48 md:h-auto w-full md:w-60 opacity-100' : 'h-0 md:h-auto w-full md:w-0 opacity-0 overflow-hidden'}`}>
-                    <div className="h-9 px-4 flex items-center justify-between text-[#BBBBBB] text-[11px] font-bold tracking-wide shrink-0">
-                        <span>{activeSidebarView.toUpperCase()}</span>
-                        <MoreHorizontal size={16} className="cursor-pointer" />
-                    </div>
-                    {renderSidebarContent()}
-                </div>
+                <AnimatePresence>
+                    {isSidebarOpen && (
+                        <motion.div
+                            initial={{ width: 0, opacity: 0 }}
+                            animate={{ width: isMobile ? '100%' : 240, opacity: 1 }}
+                            exit={{ width: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="bg-[#252526] flex flex-col border-b md:border-b-0 md:border-r border-[#111] shrink-0 overflow-hidden absolute md:relative z-30 h-[200px] md:h-auto"
+                        >
+                            <div className="h-9 px-4 flex items-center justify-between text-[#BBBBBB] text-[11px] font-bold tracking-wide shrink-0">
+                                <span>{activeSidebarView.toUpperCase()}</span>
+                                <div className="flex items-center gap-2">
+                                    <MoreHorizontal size={16} className="cursor-pointer" />
+                                    <X size={14} className="cursor-pointer md:hidden hover:text-white" onClick={() => setIsSidebarOpen(false)} />
+                                </div>
+                            </div>
+                            {renderSidebarContent()}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Editor Group */}
                 <div className="flex-1 flex flex-col bg-[#1e1e1e] min-w-0 relative">
@@ -357,7 +395,7 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
                     </div>
 
                     {/* Monaco Editor Container */}
-                    <div className="flex-1 relative bg-[#1e1e1e] min-h-0">
+                    <div className={`flex-1 relative bg-[#1e1e1e] min-h-0 ${isMobile && isSidebarOpen ? 'mt-[200px]' : ''}`}>
                         <Editor
                             height="100%"
                             language={activeProject.language}
@@ -366,16 +404,17 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
                             beforeMount={handleEditorWillMount}
                             options={{
                                 readOnly: true,
-                                minimap: { enabled: true, scale: 0.75 },
-                                fontSize: 14,
+                                minimap: { enabled: !isMobile, scale: 0.75 },
+                                fontSize: isMobile ? 12 : 14,
                                 fontFamily: "'JetBrains Mono', monospace",
-                                lineNumbers: 'on',
+                                lineNumbers: isMobile ? 'off' : 'on',
                                 roundedSelection: false,
                                 scrollBeyondLastLine: false,
                                 automaticLayout: true,
-                                padding: { top: 16 },
+                                padding: { top: 12 },
                                 cursorStyle: 'line',
                                 renderLineHighlight: 'all',
+                                wordWrap: isMobile ? 'on' : 'off',
                             }}
                         />
                     </div>
@@ -424,17 +463,17 @@ const VSCodeViewer: React.FC<VSCodeViewerProps> = ({
                     </AnimatePresence>
 
                     {/* Status Bar */}
-                    <div className="h-6 bg-[#007acc] flex items-center justify-between px-3 text-white text-[10px] select-none shrink-0 z-20">
-                        <div className="flex gap-4">
+                    <div className="h-6 bg-[#007acc] flex items-center justify-between px-2 md:px-3 text-white text-[9px] md:text-[10px] select-none shrink-0 z-20">
+                        <div className="flex gap-2 md:gap-4">
                             <span className="flex items-center gap-1 cursor-pointer hover:bg-[#1f8ad2] px-1 rounded"><GitBranch size={10} /> main*</span>
-                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded flex items-center gap-1"><X size={10} className="rounded-full bg-transparent" /> 0</span>
-                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded flex items-center gap-1">⚠ 0</span>
+                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded hidden sm:flex items-center gap-1"><X size={10} className="rounded-full bg-transparent" /> 0</span>
+                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded hidden sm:flex items-center gap-1">⚠ 0</span>
                         </div>
-                        <div className="flex gap-4">
-                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded">Ln {activeProject.code?.split('\n').length || 0}, Col 1</span>
-                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded">UTF-8</span>
+                        <div className="flex gap-2 md:gap-4">
+                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded hidden md:block">Ln {activeProject.code?.split('\n').length || 0}, Col 1</span>
+                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded hidden sm:block">UTF-8</span>
                             <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded">{activeProject.language?.toUpperCase() || 'TXT'}</span>
-                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded">Prettier</span>
+                            <span className="cursor-pointer hover:bg-[#1f8ad2] px-1 rounded hidden md:block">Prettier</span>
                         </div>
                     </div>
                 </div>

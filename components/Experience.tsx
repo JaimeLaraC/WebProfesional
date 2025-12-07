@@ -10,8 +10,8 @@ export const Experience: React.FC = () => {
     <section id="experience" className="py-24 bg-[#F3F2F0] dark:bg-[#050505] min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6 md:px-12">
         {/* Header */}
-        <ScrollReveal3D variant="fadeUp" className="flex flex-col items-center mb-24">
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tight font-display text-center dark:text-white">
+        <ScrollReveal3D variant="fadeUp" className="flex flex-col items-center mb-16 md:mb-24">
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight font-display text-center dark:text-white">
             <TextReveal text={t.titles.experience} />
             <span className="text-brand-accent dark:text-blue-500">.</span>
           </h2>

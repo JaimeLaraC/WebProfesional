@@ -62,24 +62,24 @@ export const Projects: React.FC = () => {
     <section id="projects" className="py-24 bg-[#F3F2F0] dark:bg-[#050505] transition-colors duration-500">
       <div className="container mx-auto px-6 md:px-12">
 
-        <ScrollReveal3D variant="fadeUp" className="flex justify-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold tracking-tight font-display dark:text-white">
+        <ScrollReveal3D variant="fadeUp" className="flex justify-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight font-display dark:text-white">
             <TextReveal text={t.titles.projects} /><span className="text-brand-accent dark:text-blue-500">.</span>
           </h2>
         </ScrollReveal3D>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {t.projects.map((project, index) => (
             <ScrollReveal3D
               key={project.id}
               variant="fadeUp"
               delay={index * 0.1}
             >
-              <TiltCard className="bg-[#E5E5E5] dark:bg-[#111] rounded-[2.5rem] p-10 relative min-h-[480px] flex flex-col justify-between group hover:shadow-2xl hover:shadow-gray-300/50 dark:hover:shadow-blue-900/10 border border-transparent dark:border-white/10">
+              <TiltCard className="bg-[#E5E5E5] dark:bg-[#111] rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 relative min-h-[380px] md:min-h-[480px] flex flex-col justify-between group hover:shadow-2xl hover:shadow-gray-300/50 dark:hover:shadow-blue-900/10 border border-transparent dark:border-white/10">
 
                 {/* Header */}
                 <div className="flex justify-between items-start transform translate-z-10 group-hover:translate-z-20 transition-transform">
-                  <h3 className="text-3xl font-bold max-w-[70%] leading-tight text-gray-800 dark:text-gray-100 font-display"><TextReveal text={project.title} /></h3>
+                  <h3 className="text-2xl md:text-3xl font-bold max-w-[70%] leading-tight text-gray-800 dark:text-gray-100 font-display"><TextReveal text={project.title} /></h3>
                   <button
                     onClick={() => openProject(project)}
                     className="w-12 h-12 rounded-full border border-gray-400 dark:border-gray-600 dark:text-gray-300 flex items-center justify-center group-hover:bg-black group-hover:text-white group-hover:border-black dark:group-hover:bg-white dark:group-hover:text-black dark:group-hover:border-white transition-all duration-300 group-hover:rotate-45 cursor-pointer"
@@ -105,7 +105,7 @@ export const Projects: React.FC = () => {
                 </div>
 
                 {/* Big Number Background */}
-                <div className="absolute bottom-[-30px] right-4 text-[14rem] font-bold text-gray-300/40 dark:text-white/5 select-none pointer-events-none leading-none group-hover:text-gray-300/60 dark:group-hover:text-white/10 transition-colors font-display">
+                <div className="absolute bottom-[-20px] md:bottom-[-30px] right-4 text-[10rem] md:text-[14rem] font-bold text-gray-300/40 dark:text-white/5 select-none pointer-events-none leading-none group-hover:text-gray-300/60 dark:group-hover:text-white/10 transition-colors font-display">
                   {index + 1}
                 </div>
 
@@ -119,7 +119,7 @@ export const Projects: React.FC = () => {
       {/* VS Code Modal Overlay */}
       <AnimatePresence>
         {activeProject && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-12">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -133,7 +133,7 @@ export const Projects: React.FC = () => {
               animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, rotateX: 20, y: 100 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="w-full max-w-6xl h-[85vh] relative z-10"
+              className="w-full max-w-6xl h-[90vh] md:h-[85vh] relative z-10"
               style={{ perspective: 1000 }}
             >
               <VSCodeViewer
